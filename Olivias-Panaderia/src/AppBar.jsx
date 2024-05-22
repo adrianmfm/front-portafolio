@@ -1,38 +1,41 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField'; // Importar TextField
-import SearchIcon from '@mui/icons-material/Search'; // Importar ícono de búsqueda
+import { AppBar, Box, Toolbar, Typography, Container, Avatar } from '@mui/material';
+import { Link, NavLink } from 'react-router-dom';
 
 function ResponsiveAppBar() {
   return (
-    <AppBar position="fixed" color="inherit"> {/* Cambia el color a gris */}
+    <AppBar position="fixed" color="inherit">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}> {/* Alinea los elementos al centro y espacio entre ellos */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}> {/* Contenedor para el avatar y el texto */}
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" sx={{ marginRight: '8px' }} /> {/* Agrega margen a la derecha */}
-              <Typography variant="h6" sx={{ fontStyle: 'italic', flexGrow: 1 }}> {/* Añade crecimiento flexible y estilo cursiva */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Avatar
+                  alt="logo"
+                  src="/imagenes/logo-olivias.jpeg"
+                  sx={{ width: '100px', height: 'auto', marginRight: '8px' }}
+                />
+              </Link>
+              <Typography variant="h6" sx={{ fontStyle: 'italic', flexGrow: 1 }}>
                 Olivia´s Panaderia y Pasteleria Saludable
               </Typography>
             </Box>
-            <TextField
-              id="outlined-size-small"
-              defaultValue="Buscar"
-              size="small"
-              InputProps={{ // Propiedad para configurar el componente de entrada
-                endAdornment: (
-                  <SearchIcon color="action" /> // Ícono de búsqueda dentro del TextField
-                ),
-              }}
-              sx={{ marginLeft: 'auto' }} // Mueve el TextField al final
-            />
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <NavLink to="/carrito" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <img
+                  src="/imagenes/carrito.png"
+                  alt="carrito"
+                  style={{ width: '40px', height: '40px', marginRight: '8px' }}
+                />
+              </NavLink>
+            </Box>
           </Box>
-
-          {/* Elimina el botón de búsqueda */}
         </Toolbar>
       </Container>
     </AppBar>

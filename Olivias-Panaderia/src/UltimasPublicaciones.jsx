@@ -13,6 +13,7 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
+
 const ExpandMore = styled((props) => {
   const { ...other } = props;
   return <IconButton {...other} />;
@@ -33,7 +34,6 @@ export default function RecipeReviewCard() {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
-      {/* Tarjeta 1 */}
       <Card sx={{ maxWidth: 345, marginRight: '1rem' }}>
         <CardHeader
           avatar={

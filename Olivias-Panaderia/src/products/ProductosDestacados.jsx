@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,99 +6,96 @@ import { CardActionArea } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 export default function ActionAreaCard() {
-  // Función para manejar el estilo de las tarjetas
-  const handleCardStyle = (marginLeft, marginRight, widthPercentage) => ({
-    width: `${widthPercentage}%`, // Ajustando el ancho de la tarjeta
-    marginLeft: `${marginLeft}px`,
-    marginRight: `${marginRight}px`, // Agregando margen derecho
-    
-  });
+  const cardSx = {
+    width: '30%',
+    margin: '0.5rem',
+    '@media (max-width: 768px)': {
+      width: '100%', // En pantallas pequeñas, las tarjetas ocuparán el 100% del ancho
+      margin: '0.5rem 0', // Añadir margen vertical
+    },
+  };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', maxWidth: '1000px' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
       {/* Tarjeta 1 */}
-      <Card sx={handleCardStyle(-15, 5, 30)}>
+      <Card sx={cardSx}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="150"
             image="/src/assets/imagenes/Cheesecake-frambuesa.webp"
+            alt="Cheesecake 0 Azúcar"
           />
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
               Cheesecake 0 Azúcar
             </Typography>
-            
             <Typography variant="body2" color="text.secondary">
               $5.000
             </Typography>
-            {/* Agregar el icono de carrito de compras */}
             <ShoppingCartIcon />
           </CardContent>
         </CardActionArea>
       </Card>
 
       {/* Tarjeta 2 */}
-      <Card sx={handleCardStyle(5, 5, 30)}>
+      <Card sx={cardSx}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="150"
             image="/src/assets/imagenes/Muffins.webp"
+            alt="Muffins sin gluten"
           />
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
               Muffins sin gluten
             </Typography>
-            <div style={{ marginBottom: '2.5rem' }} />
             <Typography variant="body2" color="text.secondary">
               $6.000
             </Typography>
-            {/* Agregar el icono de carrito de compras */}
             <ShoppingCartIcon />
           </CardContent>
         </CardActionArea>
       </Card>
 
       {/* Tarjeta 3 */}
-      <Card sx={handleCardStyle(5, 5, 30)}>
+      <Card sx={cardSx}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="150"
             image="/src/assets/imagenes/PastelMiel.jpeg"
+            alt="Pastel de Miel"
           />
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
               Pastel de Miel
             </Typography>
-            <div style={{ marginBottom: '2.5rem' }} />
             <Typography variant="body2" color="text.secondary">
               $7.000
             </Typography>
-            {/* Agregar el icono de carrito de compras */}
             <ShoppingCartIcon />
           </CardContent>
         </CardActionArea>
       </Card>
 
       {/* Tarjeta 4 */}
-      <Card sx={handleCardStyle(5, -15, 30)}>
+      <Card sx={cardSx}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="150"
             image="/src/assets/imagenes/Torta.jpeg"
+            alt="Torta 0 Azúcar"
           />
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
               Torta 0 Azúcar
             </Typography>
-            <div style={{ marginBottom: '2.5rem' }} />
             <Typography variant="body2" color="text.secondary">
               $8.000
             </Typography>
-            {/* Agregar el icono de carrito de compras */}
             <ShoppingCartIcon />
           </CardContent>
         </CardActionArea>
