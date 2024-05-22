@@ -25,8 +25,14 @@ const CreateUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { nombre, correo, contrasena, apaterno, amaterno } = formData;
+    
+    if (!nombre.trim() || !correo.trim() || !contrasena.trim() || !apaterno.trim() || !amaterno.trim()) {
+      setErrorMessage('No pueden haber espacios en blanco');
+      return; // Detener la función si hay campos vacíos
+    }
+  
     try {
-      const { nombre, correo, contrasena, apaterno, amaterno } = formData;
       const newUser = await createUser(nombre, correo, contrasena, apaterno, amaterno);
       console.log('User created:', newUser);
       setErrorMessage('');
@@ -37,6 +43,7 @@ const CreateUser = () => {
       setErrorMessage('Error creating user. Please try again.');
     }
   };
+  
 
   const handleCloseModal = () => {
     setShowModal(false);

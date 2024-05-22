@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUsers } from '../services/api'; // Suponiendo que tienes una función getUsers en tu archivo de servicios para obtener los usuarios
+import { getUsers } from '../services/api';
 import { Table } from 'react-bootstrap';
 
 const Users = () => {
@@ -8,8 +8,8 @@ const Users = () => {
   useEffect(() => {
     async function fetchUsuarios() {
       try {
-        const usuariosData = await getUsers(); // Obtener la lista de usuarios
-        setUsuarios(usuariosData); // Actualizar el estado con los usuarios obtenidos
+        const usuariosData = await getUsers();
+        setUsuarios(usuariosData);
       } catch (error) {
         console.error('Error fetching users:', error.message);
       }

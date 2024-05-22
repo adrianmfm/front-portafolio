@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 import { IoMdAnalytics, IoMdPeople, IoMdBasket, IoMdExit } from 'react-icons/io'; 
-import Index from './Index';
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -13,7 +12,7 @@ const Sidebar = styled.div`
   width: 200px;
   background-color: #333;
   color: #fff;
-  flex-shrink: 0; /* Evita que el Sidebar se haga más grande que su ancho */
+  flex-shrink: 0;
 `;
 
 const NavItem = styled(Link)`
@@ -57,7 +56,7 @@ const ContentContainer = styled.div`
   padding: 20px;
 `;
 
-const Dashboard = ({ Content }) => {
+const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -80,13 +79,17 @@ const Dashboard = ({ Content }) => {
           <IoMdBasket />
           Productos
         </NavItem>
+        <NavItem to="/admin/noticias">
+          <IoMdBasket />
+          Noticias
+        </NavItem>
         <LogoutButton onClick={handleLogout}>
           <IoMdExit />
           Salir
         </LogoutButton>
       </Sidebar>
       <ContentContainer>
-        <Index/>
+        <Outlet />
       </ContentContainer>
     </DashboardContainer>
   );

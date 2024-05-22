@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getUsers, deleteUserById } from '../services/api';
-import { Dropdown, Modal, Button, Card } from 'react-bootstrap';
+import { Table, Button, Modal, Dropdown } from 'react-bootstrap';
 
-const DeleteUser = () => {
+const Users = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -12,9 +12,7 @@ const DeleteUser = () => {
       try {
         const userList = await getUsers();
         console.log('Lista de usuarios:', userList);
-        if (userList && userList.length > 0) {
-          setUsers(userList);
-        }
+        setUsers(userList);
       } catch (error) {
         console.error('Error obteniendo usuarios:', error);
       }
@@ -22,11 +20,6 @@ const DeleteUser = () => {
 
     fetchUsers();
   }, []);
-
-  const handleUserSelect = (user) => {
-    setSelectedUser(user);
-    setShowDeleteModal(true); // Mostrar el modal al seleccionar un usuario
-  };
 
   const handleDeleteUser = async (userId) => {
     try {
@@ -39,16 +32,45 @@ const DeleteUser = () => {
     }
   };
 
+  const handleUserSelect = (user) => {
+    setSelectedUser(user);
+    setShowDeleteModal(true);
+  };
+
   const handleCloseDeleteModal = () => {
     setSelectedUser(null);
     setShowDeleteModal(false);
   };
 
   return (
-    <>
-      <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
-        Eliminar Usuario
-      </Button>
+    <div className="mt-4">
+      <h1>Lista de Usuarios</h1>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td>{user.id}</td>
+              <td>{user.nombre}</td>
+              <td>{user.correo}</td>
+              <td>{user.apaterno}</td>
+              <td>{user.amaterno}</td>
+              <td>
+                <Button variant="danger" onClick={() => handleUserSelect(user)}>Eliminar</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
 
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton>
@@ -59,7 +81,6 @@ const DeleteUser = () => {
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
               {selectedUser ? selectedUser.nombre : 'Seleccionar Usuario'}
             </Dropdown.Toggle>
-
             <Dropdown.Menu>
               {users.map((user) => (
                 <Dropdown.Item key={user.id} onClick={() => handleUserSelect(user)}>
@@ -68,7 +89,6 @@ const DeleteUser = () => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-
           {selectedUser && (
             <Button variant="danger" size="sm" onClick={() => handleDeleteUser(selectedUser.id)}>
               Confirmar Eliminar
@@ -81,8 +101,8 @@ const DeleteUser = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 
-export default DeleteUser;
+export default Users;

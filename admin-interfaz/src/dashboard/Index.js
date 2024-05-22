@@ -2,16 +2,15 @@ import React from 'react';
 import CreateUser from './CreateUser'
 import DeleteUser from './DeleteUser';
 import Users from './Users';
-import Dashboard from './Dashboard'
+import EditUser from './EditUser';
 const Index = () => {
   return (
     <React.StrictMode>
       <div>
-
-        <Users />
-        <CreateUser />
-        <DeleteUser/>
-        
+      <DeleteUser/>
+      <CreateUser />
+        <EditUser/>
+          
       </div>
     </React.StrictMode>
   );
