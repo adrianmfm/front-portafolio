@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import getInstagramPosts from './services/api'; // Importa el servicio de API
+import getInstagramPosts from '../services/api'; // Importa el servicio de API
 
 const InstagramPosts = () => {
   const [posts, setPosts] = useState([]);

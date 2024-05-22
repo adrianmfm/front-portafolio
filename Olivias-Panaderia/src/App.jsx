@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ProductosDestacados from "./products/ProductosDestacados";
-import InstagramPosts from "./InstagramPost";
-import Compromiso from "./Compromiso";
+import InstagramPosts from "./info/InstagramPost";
+import Compromiso from "./info/Compromiso";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 function App() {
