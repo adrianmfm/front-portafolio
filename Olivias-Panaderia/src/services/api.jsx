@@ -40,3 +40,18 @@ export const getProductoById = async (id) => {
     throw new Error('Error fetching product details: Network Error');
   }
 };
+
+//API PARA ENVIAR DATOS DE CLIENTES EN NEWSLETTER 
+export const suscribirCliente = async (nombre, correo) => {
+  const response = await axios.post(`${API_URL_JAVA}/newsletter/suscribe`, { nombre, correo }, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.data) {
+    throw new Error('Error suscribiendo usuario');
+  }
+
+  return response.data;
+};

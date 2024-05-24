@@ -3,11 +3,11 @@ import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ProductosDestacados from "./products/ProductosDestacados";
 import InstagramPosts from "./info/InstagramPost";
 import Compromiso from "./info/Compromiso";
+import Suscribirse from "./info/Suscribirse";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 function App() {
@@ -119,58 +119,8 @@ function App() {
           </CardContent>
         </Card>
         <Card variant="outlined" sx={cardSx}>
-          <CardContent style={{textAlign: 'center'}}>
-            <Typography
-              variant="h5"
-              component="div"
-              sx={{
-                fontFamily: "cursive",
-                fontSize: "2rem",
-                marginBottom: "1rem",
-              }}
-            >
-              Únete a nuestra comunidad
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                fontFamily: "cursive",
-                fontSize: "1.2rem",
-                marginBottom: "2rem",
-              }}
-            >
-              Suscríbete para recibir recetas y promociones exclusivas
-            </Typography>
-            <TextField
-              id="outlined-basic-email"
-              label="Correo Electrónico"
-              variant="outlined"
-              fullWidth
-              mb={2}
-              sx={{ fontFamily: "cursive", maxWidth: "80%" }}
-            />
-            <div style={{ marginBottom: "1rem" }} />
-            <TextField
-              id="outlined-basic-name"
-              label="Nombre"
-              variant="outlined"
-              fullWidth
-              mb={2}
-              sx={{ fontFamily: "cursive", maxWidth: "80%" }}
-            />
-            <div style={{ marginBottom: "2rem" }} />
-            <Button
-              variant="contained"
-              size="Normal"
-              sx={{
-                fontFamily: "cursive",
-                maxWidth: "50%",
-                backgroundColor: "black",
-                color: "white",
-              }}
-            >
-              Suscribirme
-            </Button>
+          <CardContent>
+            <Suscribirse />
           </CardContent>
         </Card>
       </Container>

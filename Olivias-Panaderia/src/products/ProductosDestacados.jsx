@@ -10,14 +10,13 @@ export default function ActionAreaCard() {
     width: '30%',
     margin: '0.5rem',
     '@media (max-width: 768px)': {
-      width: '100%', // En pantallas pequeñas, las tarjetas ocuparán el 100% del ancho
-      margin: '0.5rem 0', // Añadir margen vertical
+      width: '100%',
+      margin: '0.5rem 0', 
     },
   };
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
-      {/* Tarjeta 1 */}
       <Card sx={cardSx}>
         <CardActionArea>
           <CardMedia
@@ -37,8 +36,6 @@ export default function ActionAreaCard() {
           </CardContent>
         </CardActionArea>
       </Card>
-
-      {/* Tarjeta 2 */}
       <Card sx={cardSx}>
         <CardActionArea>
           <CardMedia

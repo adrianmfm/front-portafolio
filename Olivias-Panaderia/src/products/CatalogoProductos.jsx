@@ -25,7 +25,7 @@ const CatalogoProductos = () => {
   }, []);
 
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return <Typography>Cargando...</Typography>;
   }
 
   if (error) {
@@ -57,9 +57,6 @@ const CatalogoProductos = () => {
                   <div>
                     <Typography gutterBottom variant="h6" component="div">
                       {producto.nombre}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {producto.descripcion}
                     </Typography>
                     <Typography variant="body1">
                       Precio: ${producto.precio}

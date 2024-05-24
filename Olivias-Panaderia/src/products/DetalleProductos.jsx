@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductoById } from '../services/api';
 import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, TextField } from '@mui/material';
+import ResponsiveAppBar from '../AppBar';
+import Footer from '../Footer';
 
 const DetalleProducto = () => {
   const { id } = useParams();
@@ -38,7 +40,7 @@ const DetalleProducto = () => {
   };
 
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return <Typography>Cargando...</Typography>;
   }
 
   if (error) {
@@ -47,6 +49,7 @@ const DetalleProducto = () => {
 
   return (
     <Container sx={{ padding: '2rem', marginTop: '90px' }}>
+      <ResponsiveAppBar/>
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ display: 'flex', alignItems: 'center', boxShadow: 'none', minHeight: '350px' }}>
@@ -91,6 +94,7 @@ const DetalleProducto = () => {
           </Card>
         </Grid>
       </Grid>
+      <Footer/>
     </Container>
   );
 };
