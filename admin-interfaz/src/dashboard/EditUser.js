@@ -40,7 +40,7 @@ const EditUser = () => {
       apaterno: user.apaterno,
       amaterno: user.amaterno,
     });
-    setShowEditModal(true); // Mostrar el modal al seleccionar un usuario
+    setShowEditModal(true);
   };
 
   const handleFormChange = (e) => {
@@ -51,11 +51,16 @@ const EditUser = () => {
   const handleEditUser = async () => {
     const { nombre, correo, contrasena, apaterno, amaterno } = formData;
 
-    if (!nombre.trim() || !correo.trim() || !contrasena.trim() || !apaterno.trim() || !amaterno.trim()) {
+    if (selectedUser && contrasena !== selectedUser.contrasena && contrasena.length < 8) {
+      setErrorMessage('La contraseña debe tener al menos 8 caracteres');
+      return;
+    }
+  
+    if (!nombre || !nombre.trim() || !correo || !correo.trim() || !apaterno || !apaterno.trim() || !amaterno || !amaterno.trim()) {
       setErrorMessage('Todos los campos son requeridos y no pueden estar vacíos');
       return;
     }
-
+  
     try {
       await updateUserById(selectedUser.id, nombre, correo, contrasena, apaterno, amaterno);
       const updatedUserList = await getUsers();
@@ -75,7 +80,7 @@ const EditUser = () => {
       setErrorMessage('Error actualizando el usuario. Por favor, intente nuevamente.');
     }
   };
-
+  
   const handleCloseEditModal = () => {
     setSelectedUser(null);
     setFormData({
@@ -119,7 +124,7 @@ const EditUser = () => {
             <Form>
               <Form.Group controlId="formNombre">
                 <Form.Label>Nombre</Form.Label>
-                <Form.Control type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} />
+                <Form.Control type="text" name="nombre" value={formData.nombre} onChange={handleFormChange} required/>
               </Form.Group>
               <Form.Group controlId="formCorreo">
                 <Form.Label>Correo</Form.Label>

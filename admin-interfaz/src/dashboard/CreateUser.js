@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
 import { createUser } from '../services/api';
-import { Form, Button, Alert, Modal } from 'react-bootstrap';
+import { Form, Button, Alert, Modal, Dropdown } from 'react-bootstrap';
 
 const CreateUser = () => {
-  
   const initialFormData = {
     nombre: '',
     correo: '',
     contrasena: '',
     apaterno: '',
-    amaterno: ''
+    amaterno: '', 
+    idRol: ''
   };
+
+  const roles = [
+    { id: 1, name: 'Administrador' },
+    { id: 2, name: 'Usuario' }
+  ];
+
   const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
+  const [selectedRole, setSelectedRole] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,27 +30,40 @@ const CreateUser = () => {
     }));
   };
 
+  const handleRoleSelect = (role) => {
+    setSelectedRole(role);
+    setFormData((prevData) => ({
+      ...prevData,
+      idRol: role.id
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { nombre, correo, contrasena, apaterno, amaterno } = formData;
+    const { nombre, correo, contrasena, apaterno, amaterno, idRol } = formData;
     
-    if (!nombre.trim() || !correo.trim() || !contrasena.trim() || !apaterno.trim() || !amaterno.trim()) {
+    if (!nombre.trim() || !correo.trim() || !contrasena.trim() || !apaterno.trim() || !amaterno.trim() || !idRol) {
       setErrorMessage('No pueden haber espacios en blanco');
-      return; // Detener la función si hay campos vacíos
+      return;
+    }
+
+    if (contrasena.length < 8) {
+      setErrorMessage('La contraseña debe tener al menos 8 caracteres');
+      return;
     }
   
     try {
-      const newUser = await createUser(nombre, correo, contrasena, apaterno, amaterno);
+      const newUser = await createUser(nombre, correo, contrasena, apaterno, amaterno, idRol);
       console.log('User created:', newUser);
       setErrorMessage('');
-      setShowModal(true); // Mostrar el modal de confirmación
+      setShowModal(false);
       setFormData(initialFormData);
+      setSelectedRole(null); // Resetear el rol seleccionado
     } catch (error) {
       console.error('Error creating user:', error.message);
       setErrorMessage('Error creating user. Please try again.');
     }
   };
-  
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -63,11 +83,11 @@ const CreateUser = () => {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formNombre">
               <Form.Label>Nombre:</Form.Label>
-              <Form.Control type="text" name="nombre" value={formData.nombre} onChange={handleChange} required/>
+              <Form.Control type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
             </Form.Group>
             <Form.Group controlId="formApaterno">
               <Form.Label>Apellido Paterno:</Form.Label>
-              <Form.Control type="text" name="apaterno" value={formData.apaterno} onChange={handleChange} required/>
+              <Form.Control type="text" name="apaterno" value={formData.apaterno} onChange={handleChange} required />
             </Form.Group>
             <Form.Group controlId="formAmaterno">
               <Form.Label>Apellido Materno:</Form.Label>
@@ -75,13 +95,25 @@ const CreateUser = () => {
             </Form.Group>
             <Form.Group controlId="formCorreo">
               <Form.Label>Correo:</Form.Label>
-              <Form.Control type="email" name="correo" value={formData.correo} onChange={handleChange}required />
+              <Form.Control type="email" name="correo" value={formData.correo} onChange={handleChange} required />
             </Form.Group>
             <Form.Group controlId="formContrasena">
               <Form.Label>Contraseña:</Form.Label>
-              <Form.Control type="password" name="contrasena" value={formData.contrasena} onChange={handleChange}required />
+              <Form.Control type="password" name="contrasena" value={formData.contrasena} onChange={handleChange} required />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Dropdown>
+              <Dropdown.Toggle style={{marginTop: '10px'}} variant="primary" id="dropdown-basic">
+                {selectedRole ? selectedRole.name : 'Seleccionar Rol'}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {roles.map((role) => (
+                  <Dropdown.Item key={role.id} onClick={() => handleRoleSelect(role)}>
+                    {role.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button style={{marginTop: '10px'}} variant="primary" type="submit">
               Crear Usuario
             </Button>
           </Form>
