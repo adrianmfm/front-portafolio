@@ -47,12 +47,21 @@ const EditUser = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(formData.correo);
+  };
 
   const handleEditUser = async () => {
     const { nombre, correo, contrasena, apaterno, amaterno } = formData;
 
     if (selectedUser && contrasena !== selectedUser.contrasena && contrasena.length < 8) {
       setErrorMessage('La contraseña debe tener al menos 8 caracteres');
+      return;
+    }
+    if (!validateEmail()) {
+      console.log("Correo no válido:", correo);
+      setErrorMessage("El correo no cumple con el formato");
       return;
     }
   

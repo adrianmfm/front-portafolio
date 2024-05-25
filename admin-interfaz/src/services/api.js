@@ -109,17 +109,24 @@ export const deleteProduct = async (idProducto) => {
 }
 
 
+export const createProduct = async (nombre, precio, descripcion, stock, imagenUrl) => {
+  try {
+    const response = await fetch(`${API_URL}/producto/crearProducto`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ nombre, precio, descripcion, stock, imagenUrl })
+    });
+    if (!response.ok) {
+      throw new Error('Error creando producto');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error creando producto:', error);
+    throw error;
+  }
+};
 
-// export const deleteUserById = async (userId) => {
-//   try {
-//     const response = await fetch(`${API_URL}/usuario/usuarioById?id=${userId}`, {
-//       method: 'DELETE'
-//     });
-//     if (!response.ok) {
-//       throw new Error(`Error eliminando user con ID ${userId}`);
-//     }
-//     return response.json();
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+
+

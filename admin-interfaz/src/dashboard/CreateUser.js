@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { createUser } from '../services/api';
-import { Form, Button, Alert, Modal, Dropdown } from 'react-bootstrap';
+import React, { useState } from "react";
+import { createUser } from "../services/api";
+import { Form, Button, Alert, Modal, Dropdown } from "react-bootstrap";
 
 const CreateUser = () => {
   const initialFormData = {
-    nombre: '',
-    correo: '',
-    contrasena: '',
-    apaterno: '',
-    amaterno: '', 
-    idRol: ''
+    nombre: "",
+    correo: "",
+    contrasena: "",
+    apaterno: "",
+    amaterno: "",
+    idRol: "",
   };
 
   const roles = [
-    { id: 1, name: 'Administrador' },
-    { id: 2, name: 'Usuario' }
+    { id: 1, name: "Administrador" },
+    { id: 2, name: "Usuario" },
   ];
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [selectedRole, setSelectedRole] = useState(null);
@@ -26,7 +26,7 @@ const CreateUser = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -34,34 +34,62 @@ const CreateUser = () => {
     setSelectedRole(role);
     setFormData((prevData) => ({
       ...prevData,
-      idRol: role.id
+      idRol: role.id,
     }));
   };
+
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(formData.correo);
+  };
+  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { nombre, correo, contrasena, apaterno, amaterno, idRol } = formData;
     
-    if (!nombre.trim() || !correo.trim() || !contrasena.trim() || !apaterno.trim() || !amaterno.trim() || !idRol) {
-      setErrorMessage('No pueden haber espacios en blanco');
+    
+    if (
+      !nombre.trim() ||
+      !correo.trim() ||
+      !contrasena.trim() ||
+      !apaterno.trim() ||
+      !amaterno.trim() ||
+      !idRol
+    ) {
+      setErrorMessage("No pueden haber espacios en blanco");
+      return;
+    }
+
+    if (!validateEmail()) {
+      console.log("Correo no válido:", correo);
+      setErrorMessage("El correo no cumple con el formato");
       return;
     }
 
     if (contrasena.length < 8) {
-      setErrorMessage('La contraseña debe tener al menos 8 caracteres');
+      setErrorMessage("La contraseña debe tener al menos 8 caracteres");
       return;
     }
-  
+
     try {
-      const newUser = await createUser(nombre, correo, contrasena, apaterno, amaterno, idRol);
-      console.log('User created:', newUser);
-      setErrorMessage('');
+      const newUser = await createUser(
+        nombre,
+        correo,
+        contrasena,
+        apaterno,
+        amaterno,
+        idRol
+      );
+      console.log("User created:", newUser);
+      setErrorMessage("");
       setShowModal(false);
       setFormData(initialFormData);
       setSelectedRole(null); // Resetear el rol seleccionado
     } catch (error) {
-      console.error('Error creating user:', error.message);
-      setErrorMessage('Error creating user. Please try again.');
+      console.error("Error creating user:", error.message);
+      setErrorMessage("Error creating user. Please try again.");
     }
   };
 
@@ -83,37 +111,82 @@ const CreateUser = () => {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formNombre">
               <Form.Label>Nombre:</Form.Label>
-              <Form.Control type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+              <Form.Control
+                type="text"
+                name="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+                required
+              />
             </Form.Group>
             <Form.Group controlId="formApaterno">
               <Form.Label>Apellido Paterno:</Form.Label>
-              <Form.Control type="text" name="apaterno" value={formData.apaterno} onChange={handleChange} required />
+              <Form.Control
+                type="text"
+                name="apaterno"
+                value={formData.apaterno}
+                onChange={handleChange}
+                required
+              />
             </Form.Group>
             <Form.Group controlId="formAmaterno">
               <Form.Label>Apellido Materno:</Form.Label>
-              <Form.Control type="text" name="amaterno" value={formData.amaterno} onChange={handleChange} />
+              <Form.Control
+                type="text"
+                name="amaterno"
+                value={formData.amaterno}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group controlId="formCorreo">
               <Form.Label>Correo:</Form.Label>
-              <Form.Control type="email" name="correo" value={formData.correo} onChange={handleChange} required />
+              <Form.Control
+                type="email"
+                name="correo"
+                value={formData.correo}
+                onChange={handleChange}
+                required
+                isInvalid={!!errorMessage} // Agregar isInvalid para mostrar el mensaje de error
+              />
+              <Form.Control.Feedback type="invalid">
+                {errorMessage} {/* Mostrar mensaje de error */}
+              </Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group controlId="formContrasena">
               <Form.Label>Contraseña:</Form.Label>
-              <Form.Control type="password" name="contrasena" value={formData.contrasena} onChange={handleChange} required />
+              <Form.Control
+                type="password"
+                name="contrasena"
+                value={formData.contrasena}
+                onChange={handleChange}
+                required
+              />
             </Form.Group>
             <Dropdown>
-              <Dropdown.Toggle style={{marginTop: '10px'}} variant="primary" id="dropdown-basic">
-                {selectedRole ? selectedRole.name : 'Seleccionar Rol'}
+              <Dropdown.Toggle
+                style={{ marginTop: "10px" }}
+                variant="primary"
+                id="dropdown-basic"
+              >
+                {selectedRole ? selectedRole.name : "Seleccionar Rol"}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {roles.map((role) => (
-                  <Dropdown.Item key={role.id} onClick={() => handleRoleSelect(role)}>
+                  <Dropdown.Item
+                    key={role.id}
+                    onClick={() => handleRoleSelect(role)}
+                  >
                     {role.name}
                   </Dropdown.Item>
                 ))}
               </Dropdown.Menu>
             </Dropdown>
-            <Button style={{marginTop: '10px'}} variant="primary" type="submit">
+            <Button
+              style={{ marginTop: "10px" }}
+              variant="primary"
+              type="submit"
+            >
               Crear Usuario
             </Button>
           </Form>
