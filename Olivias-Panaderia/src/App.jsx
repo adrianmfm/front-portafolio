@@ -7,9 +7,8 @@ import Button from "@mui/material/Button";
 import ProductosDestacados from "./products/ProductosDestacados";
 import InstagramPosts from "./info/InstagramPost";
 import Compromiso from "./info/Compromiso";
-import Suscribirse from "./info/Suscribirse";
 import { useNavigate } from "react-router-dom";
-import Footer from "./Footer";
+import Suscribirse from "./info/Suscribirse";
 function App() {
   const cardSx = {
     mb: "1rem",
@@ -118,13 +117,10 @@ function App() {
             <InstagramPosts />
           </CardContent>
         </Card>
-        <Card variant="outlined" sx={cardSx}>
-          <CardContent>
-            <Suscribirse />
-          </CardContent>
-        </Card>
       </Container>
-      <Footer/> 
+      <CardContent>
+      <Suscribirse/>
+      </CardContent>
     </Container>
 
   );

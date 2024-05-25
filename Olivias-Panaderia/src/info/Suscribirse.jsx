@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, TextField, Button } from '@mui/material'
 import { suscribirCliente } from '../services/api';
 
 const cardSx = {
-  maxWidth: '500px',
+  maxWidth: '1000px',
   margin: 'auto',
   marginTop: '50px',
 };
@@ -21,10 +21,20 @@ const Suscribirse = () => {
       return;
     }
 
-    if (!correo.includes('@') || !correo.includes('.')) {
+    const validateEmail = (email) => {
+      // Expresión regular para validar el formato de un correo electrónico
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+    
+    // Uso de la función validateEmail
+    const isValidEmail = validateEmail(correo);
+    
+    if (!isValidEmail) {
       setErrorCorreo(true);
       return;
     }
+    
 
     try {
       const response = await suscribirCliente(nombre, correo);
@@ -75,7 +85,7 @@ const Suscribirse = () => {
             setCorreo(e.target.value);
             setErrorCorreo(false);
           }}
-          sx={{ fontFamily: 'cursive', maxWidth: '80%', marginBottom: '1rem' }}
+          sx={{ fontFamily: 'cursive', marginBottom: '1rem' }}
           error={errorCorreo}
           helperText={errorCorreo ? 'Correo inválido' : ''}
         />
@@ -89,7 +99,7 @@ const Suscribirse = () => {
             setNombre(e.target.value);
             setErrorNombre(false);
           }}
-          sx={{ fontFamily: 'cursive', maxWidth: '80%', marginBottom: '2rem' }}
+          sx={{ fontFamily: 'cursive', maxWidth: '100%', marginBottom: '2rem' }}
           error={errorNombre}
           helperText={errorNombre ? 'Nombre requerido' : ''}
         />

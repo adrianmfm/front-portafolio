@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { getProductoById } from '../services/api';
 import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, TextField } from '@mui/material';
 import ResponsiveAppBar from '../AppBar';
-import Footer from '../Footer';
 
 const DetalleProducto = () => {
   const { id } = useParams();
@@ -59,7 +58,7 @@ const DetalleProducto = () => {
                 height="100%"
                 image={producto.imagenUrl}
                 alt={producto.nombre}
-                sx={{ width: '80%', objectFit: 'cover', borderRadius: '8px 0 0 8px' }}
+                sx={{ width: '100%', objectFit: 'cover', borderRadius: '8px 0 0 8px' }}
               />
             )}
           </Card>
@@ -94,7 +93,7 @@ const DetalleProducto = () => {
           </Card>
         </Grid>
       </Grid>
-      <Footer/>
+
     </Container>
   );
 };

@@ -1,102 +1,73 @@
-import Card from '@mui/material/Card';
+import Card  from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useState, useEffect } from 'react';
+import { getAllProductos } from '../services/api';
+import { Link } from 'react-router-dom'; // Cambiado a 'react-router-dom'
 
-export default function ActionAreaCard() {
+export default function ProductosDestacados() {
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const productosData = await getAllProductos();
+        setProductos(productosData);
+      } catch (error) {
+        setError('Error fetching products');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductos();
+  }, []);
+
+  if (loading) {
+    return <Typography>Cargando...</Typography>;
+  }
+
+  if (error) {
+    return <Typography>Error: {error}</Typography>;
+  }
+
   const cardSx = {
     width: '30%',
     margin: '0.5rem',
     '@media (max-width: 768px)': {
       width: '100%',
-      margin: '0.5rem 0', 
+      margin: '0.5rem 0',
     },
   };
 
+  const productosConStock = productos.filter(producto => producto.stock > 0).slice(0, 6);
+
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
-      <Card sx={cardSx}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="150"
-            image="/src/assets/imagenes/Cheesecake-frambuesa.webp"
-            alt="Cheesecake 0 Azúcar"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              Cheesecake 0 Azúcar
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              $5.000
-            </Typography>
-            <ShoppingCartIcon />
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      <Card sx={cardSx}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="150"
-            image="/src/assets/imagenes/Muffins.webp"
-            alt="Muffins sin gluten"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              Muffins sin gluten
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              $6.000
-            </Typography>
-            <ShoppingCartIcon />
-          </CardContent>
-        </CardActionArea>
-      </Card>
-
-      {/* Tarjeta 3 */}
-      <Card sx={cardSx}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="150"
-            image="/src/assets/imagenes/PastelMiel.jpeg"
-            alt="Pastel de Miel"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              Pastel de Miel
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              $7.000
-            </Typography>
-            <ShoppingCartIcon />
-          </CardContent>
-        </CardActionArea>
-      </Card>
-
-      {/* Tarjeta 4 */}
-      <Card sx={cardSx}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="150"
-            image="/src/assets/imagenes/Torta.jpeg"
-            alt="Torta 0 Azúcar"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              Torta 0 Azúcar
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              $8.000
-            </Typography>
-            <ShoppingCartIcon />
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      {productosConStock.map((producto) => (
+        <Card key={producto.id} sx={cardSx}>
+          <CardActionArea component={Link} to={`/producto/${producto.id}`}>
+            <CardMedia
+              component="img"
+              height="150"
+              image={producto.imagenUrl}
+              alt={producto.nombre}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h6" component="div">
+                {producto.nombre}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                ${producto.precio}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      ))}
     </div>
   );
 }

@@ -21,7 +21,6 @@ const API_URL_JAVA = 'http://localhost:8080';
 export const getAllProductos = async () => {
   try {
     const response = await axios.get(`${API_URL_JAVA}/producto/getAllProductos`);
-    console.log('Response from API:', response.data);
     return response.data; 
   } catch (error) {
     throw new Error('Error fetching products: Network Error');
@@ -34,7 +33,6 @@ export const getProductoById = async (id) => {
     const response = await axios.get(`${API_URL_JAVA}/producto/getProductoById`, {
       params: { id } 
     });
-    console.log('respuesta',response.data)
     return response.data;
   } catch (error) {
     throw new Error('Error fetching product details: Network Error');

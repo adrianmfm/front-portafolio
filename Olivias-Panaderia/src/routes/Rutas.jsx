@@ -4,15 +4,18 @@ import CatalogoProductos from '../products/CatalogoProductos';
 import DetalleProducto from '../products/DetalleProductos';
 import { AppBar } from '@mui/material';
 
+
 function AppRoutes() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/inicio" replace />} />
-        <Route path="/inicio" element={<App />} />
+        <Route path="/inicio" element={<>
+          <AppBar />
+          <App />
+        </>} />
         <Route path="/catalogo" element={<CatalogoProductos />} />
         <Route path="/producto/:id" element={<DetalleProducto />} />
-        <Route path='/inicio' element={<AppBar/>} /> 
       </Routes>
     </Router>
   );

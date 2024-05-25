@@ -53,22 +53,24 @@ const CatalogoProductos = () => {
                     alt={producto.nombre}
                   />
                 )}
-                <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
+                <Card sx={{ height: '100%' }}>
+                <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                  <div style={{height: '100px'}}>
                     <Typography gutterBottom variant="h6" component="div">
                       {producto.nombre}
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{marginBottom: '10px'}}>
                       Precio: ${producto.precio}
                     </Typography>
                   </div>
                   <Button
                     variant="contained"
-                    sx={{ marginTop: '1rem', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}
+                    sx={{marginBottom: '0%', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}
                   >
                     Agregar al carrito
                   </Button>
                 </CardContent>
+                </Card>
               </CardActionArea>
             </Card>
           </Grid>
