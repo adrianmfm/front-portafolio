@@ -1,7 +1,11 @@
+// src/AppBar.jsx
 import { AppBar, Box, Toolbar, Typography, Container, Avatar } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { CarritoContext } from '@/carrito/CarritoContext';
+
+
+
 
 
 function ResponsiveAppBar() {

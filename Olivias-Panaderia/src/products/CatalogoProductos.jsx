@@ -3,7 +3,8 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Contain
 import { Link } from 'react-router-dom';
 import { getAllProductos } from '../services/api';
 import ResponsiveAppBar from '../AppBar';
-import { CarritoContext } from '../carrito/CarritoContext';
+import { CarritoContext } from '@/carrito/CarritoContext';
+
 
 const CatalogoProductos = () => {
   const { agregarProducto } = useContext(CarritoContext);
