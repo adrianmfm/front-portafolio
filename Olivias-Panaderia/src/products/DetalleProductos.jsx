@@ -3,8 +3,7 @@ import { useEffect, useState, useContext } from 'react';
 import { getProductoById } from '../services/api';
 import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, TextField } from '@mui/material';
 import ResponsiveAppBar from '../AppBar';
-import { CarritoContext } from '@/carrito/CarritoContext';
-
+import { CarritoContext } from '../carrito/CarritoContext';
 
 const DetalleProducto = () => {
   const { id } = useParams();

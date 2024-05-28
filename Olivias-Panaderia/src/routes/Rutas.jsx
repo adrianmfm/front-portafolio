@@ -14,7 +14,7 @@ function AppRoutes() {
         <Route path="/inicio" element={<App />} />
         <Route path="/catalogo" element={<CatalogoProductos />} />
         <Route path="/producto/:id" element={<DetalleProducto />} />
-        <Route path="/carrito" element={<CarritoCompras />} /> 
+        <Route path="/carrito" element={<CarritoCompras />} /> {/* Asegúrate de que la ruta es "/carrito" */}
       </Routes>
     </Router>
   );
