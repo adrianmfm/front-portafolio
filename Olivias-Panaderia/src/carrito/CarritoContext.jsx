@@ -1,5 +1,5 @@
+// src/carrito/CarritoContext.jsx
 import React, { createContext, useState } from 'react';
-
 
 export const CarritoContext = createContext();
 
