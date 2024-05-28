@@ -1,7 +1,12 @@
 import { AppBar, Box, Toolbar, Typography, Container, Avatar } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { CarritoContext } from '@/carrito/CarritoContext';
+
 
 function ResponsiveAppBar() {
+  const { obtenerCantidadTotal } = useContext(CarritoContext);
+
   return (
     <AppBar position="fixed" color="inherit">
       <Container maxWidth="xl">
@@ -33,6 +38,7 @@ function ResponsiveAppBar() {
                   alt="carrito"
                   style={{ width: '40px', height: '40px', marginRight: '8px' }}
                 />
+                <span>{obtenerCantidadTotal()}</span> {/* Mostrar cantidad de productos */}
               </NavLink>
             </Box>
           </Box>

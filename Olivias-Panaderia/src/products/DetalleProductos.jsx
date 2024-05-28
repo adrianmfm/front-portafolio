@@ -1,11 +1,13 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getProductoById } from '../services/api';
 import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, TextField } from '@mui/material';
 import ResponsiveAppBar from '../AppBar';
+import { CarritoContext } from '../carrito/CarritoContext';
 
 const DetalleProducto = () => {
   const { id } = useParams();
+  const { agregarProducto } = useContext(CarritoContext);
   const [producto, setProducto] = useState(null);
   const [cantidad, setCantidad] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -36,6 +38,7 @@ const DetalleProducto = () => {
 
   const handleAgregarCarrito = () => {
     console.log(`Agregando ${cantidad} unidades del producto al carrito`);
+    agregarProducto(producto, cantidad);
   };
 
   if (loading) {

@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Container, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { getAllProductos } from '../services/api';
 import ResponsiveAppBar from '../AppBar';
+import { CarritoContext } from '../carrito/CarritoContext';
 
 const CatalogoProductos = () => {
+  const { agregarProducto } = useContext(CarritoContext);
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,8 +38,8 @@ const CatalogoProductos = () => {
 
   return (
     <Container sx={{ padding: '2rem', marginTop: '90px' }}>
-      <ResponsiveAppBar/>
-      <Typography variant="h4" component="h1" gutterBottom style={{fontFamily: 'cursive',}}>
+      <ResponsiveAppBar />
+      <Typography variant="h4" component="h1" gutterBottom style={{ fontFamily: 'cursive' }}>
         Nuestros productos
       </Typography>
       <Grid container spacing={4}>
@@ -54,22 +56,23 @@ const CatalogoProductos = () => {
                   />
                 )}
                 <Card sx={{ height: '100%' }}>
-                <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                  <div style={{height: '100px'}}>
-                    <Typography gutterBottom variant="h6" component="div">
-                      {producto.nombre}
-                    </Typography>
-                    <Typography variant="body1" style={{marginBottom: '10px'}}>
-                      Precio: ${producto.precio}
-                    </Typography>
-                  </div>
-                  <Button
-                    variant="contained"
-                    sx={{marginBottom: '0%', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}
-                  >
-                    Agregar al carrito
-                  </Button>
-                </CardContent>
+                  <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ height: '100px' }}>
+                      <Typography gutterBottom variant="h6" component="div">
+                        {producto.nombre}
+                      </Typography>
+                      <Typography variant="body1" style={{ marginBottom: '10px' }}>
+                        Precio: ${producto.precio}
+                      </Typography>
+                    </div>
+                    <Button
+                      variant="contained"
+                      sx={{ marginBottom: '0%', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}
+                      onClick={() => agregarProducto(producto)}
+                    >
+                      Agregar al carrito
+                    </Button>
+                  </CardContent>
                 </Card>
               </CardActionArea>
             </Card>
