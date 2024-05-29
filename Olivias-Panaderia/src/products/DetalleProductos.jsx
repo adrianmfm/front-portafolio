@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductoById } from '../services/api';
 import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, TextField } from '@mui/material';
@@ -49,6 +49,11 @@ const DetalleProducto = () => {
   return (
     <Container sx={{ padding: '2rem', marginTop: '90px' }}>
       <ResponsiveAppBar/>
+      <Link to="/catalogo" style={{ textDecoration: 'none' }}>
+        <Button variant="contained" sx={{ marginBottom: '1rem', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}>
+          Volver a la tienda
+        </Button>
+      </Link>
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ display: 'flex', alignItems: 'center', boxShadow: 'none', minHeight: '350px' }}>
@@ -73,7 +78,7 @@ const DetalleProducto = () => {
                 {producto.descripcion}
               </Typography>
               <Typography variant="body1">
-                Precio: ${producto.precio}
+              Precio: {new Intl.NumberFormat('es-ES').format(producto.precio)}
               </Typography>
               <TextField style={{marginTop: '120px'}}
                 label="Cantidad"

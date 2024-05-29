@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Card, CardContent, Typography, TextField, Button } from '@mui/material';
-import { suscribirCliente } from '../services/api';
-
+import { suscribirCliente, getSubscribers} from '../services/api';
 const cardSx = {
   maxWidth: '1000px',
   margin: 'auto',
@@ -14,10 +13,12 @@ const Suscribirse = () => {
   const [suscripcionExitosa, setSuscripcionExitosa] = useState(false);
   const [errorCorreo, setErrorCorreo] = useState(false);
   const [errorNombre, setErrorNombre] = useState(false);
+  const [errorMensajeNombre, setErrorMensajeNombre] = useState('');
 
   const handleSuscribirse = async () => {
     if (!nombre.trim()) {
       setErrorNombre(true);
+      setErrorMensajeNombre('Nombre requerido');
       return;
     }
 
@@ -26,21 +27,36 @@ const Suscribirse = () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     };
+
+    const textRegex = /^[a-zA-Z ]+$/;
+    const isValidText = (text) => {
+      return textRegex.test(text);
+    };
+
+    if (!isValidText(nombre)) {
+      setErrorNombre(true);
+      setErrorMensajeNombre('Nombre inválido');
+      return;
+    }
+
     
+
     // Uso de la función validateEmail
     const isValidEmail = validateEmail(correo);
-    
     if (!isValidEmail) {
       setErrorCorreo(true);
       return;
     }
-    
+    const suscribersList = await getSubscribers();
+    if (suscribersList.some(usuario => usuario.correo === correo)) {
+      setErrorCorreo("Correo existente");
+      return;
+    }
 
     try {
       const response = await suscribirCliente(nombre, correo);
       if (response) {
         setSuscripcionExitosa(true);
-        // Restablecer valores después de la suscripción exitosa
         setNombre('');
         setCorreo('');
         setErrorNombre(false);
@@ -98,10 +114,11 @@ const Suscribirse = () => {
           onChange={(e) => {
             setNombre(e.target.value);
             setErrorNombre(false);
+            setErrorMensajeNombre('');
           }}
           sx={{ fontFamily: 'cursive', maxWidth: '100%', marginBottom: '2rem' }}
           error={errorNombre}
-          helperText={errorNombre ? 'Nombre requerido' : ''}
+          helperText={errorNombre ? errorMensajeNombre : ''}
         />
         <Button
           variant="contained"
@@ -132,6 +149,6 @@ const Suscribirse = () => {
       </CardContent>
     </Card>
   );
+  
 };
-
-export default Suscribirse;
+export default Suscribirse

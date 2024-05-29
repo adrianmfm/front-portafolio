@@ -60,7 +60,7 @@ const CatalogoProductos = () => {
                       {producto.nombre}
                     </Typography>
                     <Typography variant="body1" style={{marginBottom: '10px'}}>
-                      Precio: ${producto.precio}
+                    Precio: {new Intl.NumberFormat('es-ES').format(producto.precio)}
                     </Typography>
                   </div>
                   <Button

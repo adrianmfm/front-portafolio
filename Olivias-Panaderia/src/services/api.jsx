@@ -53,3 +53,17 @@ export const suscribirCliente = async (nombre, correo) => {
 
   return response.data;
 };
+
+export const getSubscribers = async () => {
+  try {
+    const response = await fetch(`${API_URL_JAVA}/newsletter/getSubscribers`);
+    if (!response.ok) {
+      throw new Error('Error obteniendo suscribers');
+    }
+    console.log(response)
+    return response.json();
+  } catch (error) {
+    console.error('Error obteniendo suscribers:', error);
+    throw error;
+  }
+};

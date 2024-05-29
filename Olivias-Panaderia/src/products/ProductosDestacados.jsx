@@ -62,7 +62,7 @@ export default function ProductosDestacados() {
                 {producto.nombre}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                ${producto.precio}
+              Precio: {new Intl.NumberFormat('es-ES').format(producto.precio)}
               </Typography>
             </CardContent>
           </CardActionArea>
