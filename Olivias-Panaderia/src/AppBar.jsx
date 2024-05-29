@@ -5,9 +5,6 @@ import { useContext } from 'react';
 import { CarritoContext } from '@/carrito/CarritoContext';
 
 
-
-
-
 function ResponsiveAppBar() {
   const { obtenerCantidadTotal } = useContext(CarritoContext);
 
