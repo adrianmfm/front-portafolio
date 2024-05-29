@@ -1,11 +1,20 @@
-// src/AppBar.jsx
-import { AppBar, Box, Toolbar, Typography, Container, Avatar } from '@mui/material';
+import React, { useState } from 'react';
+import { AppBar, Box, Toolbar, Typography, Container, Avatar, Menu, MenuItem } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { CarritoContext } from '@/carrito/CarritoContext';
 
 function ResponsiveAppBar() {
   const { obtenerCantidadTotal } = useContext(CarritoContext);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar position="fixed" color="inherit">
@@ -40,11 +49,35 @@ function ResponsiveAppBar() {
                 />
                 <span>{obtenerCantidadTotal()}</span> {/* Mostrar cantidad de productos */}
               </NavLink>
-              <Avatar src="/broken-image.jpg" sx={{ marginLeft: '16px' }} /> {/* Agregar avatar */}
+              <Avatar 
+                src="/broken-image.jpg" 
+                sx={{ marginLeft: '16px', cursor: 'pointer' }} 
+                onClick={handleAvatarClick}
+              />
             </Box>
           </Box>
         </Toolbar>
       </Container>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+          <Link to="/usuario/InicioSesion" style={{ textDecoration: 'none', color: 'inherit' }}>Iniciar Sesión</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to="/usuario/registro" style={{ textDecoration: 'none', color: 'inherit' }}>Registrarse</Link>
+        </MenuItem>
+      </Menu>
     </AppBar>
   );
 }

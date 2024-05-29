@@ -4,6 +4,8 @@ import CatalogoProductos from '../products/CatalogoProductos';
 import DetalleProducto from '../products/DetalleProductos';
 import CarritoCompras from '../carrito/CarritoCompras'; // Asegúrate de importar el componente CarritoCompras
 import ResponsiveAppBar from '../AppBar'; // Asegúrate de importar el AppBar correcto
+import InicioSesion from '../usuario/InicioSesion'; 
+import Registro from '../usuario/Registro';
 
 function AppRoutes() {
   return (
@@ -15,6 +17,8 @@ function AppRoutes() {
         <Route path="/catalogo" element={<CatalogoProductos />} />
         <Route path="/producto/:id" element={<DetalleProducto />} />
         <Route path="/carrito" element={<CarritoCompras />} /> 
+        <Route path="/usuario/inicioSesion" element={<InicioSesion />} />
+        <Route path="/usuario/registro" element={<Registro />} />
       </Routes>
     </Router>
   );
