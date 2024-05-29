@@ -70,13 +70,13 @@ function App() {
               showStatus={false}
             >
               <div style={{ height: '200px' }}>
-                <img src="/imagenes/ProductosSlide.jpg" alt="Imagen 1" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
+                <img src="/imagenes/vitrinaPasteleria.webp" alt="Imagen 1" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
               </div>
               <div style={{ height: '200px' }}>
-                <img src="/imagenes/PanaderiaAtencion.jpg" alt="Imagen 2" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
+                <img src="/imagenes/trabajadora.jpg" alt="Imagen 2" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
               </div>
               <div style={{ height: '200px' }}>
-                <img src="/imagenes/TrabajadorPanaderia.jpg" alt="Imagen 3" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
+                <img src="/imagenes/ambosProductos.jpg" alt="Imagen 3" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
               </div>
             </Carousel>
             <Typography

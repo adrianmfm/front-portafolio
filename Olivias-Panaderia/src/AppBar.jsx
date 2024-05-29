@@ -4,7 +4,6 @@ import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { CarritoContext } from '@/carrito/CarritoContext';
 
-
 function ResponsiveAppBar() {
   const { obtenerCantidadTotal } = useContext(CarritoContext);
 
@@ -41,6 +40,7 @@ function ResponsiveAppBar() {
                 />
                 <span>{obtenerCantidadTotal()}</span> {/* Mostrar cantidad de productos */}
               </NavLink>
+              <Avatar src="/broken-image.jpg" sx={{ marginLeft: '16px' }} /> {/* Agregar avatar */}
             </Box>
           </Box>
         </Toolbar>
