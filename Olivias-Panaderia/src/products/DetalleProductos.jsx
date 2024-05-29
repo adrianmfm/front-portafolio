@@ -5,7 +5,6 @@ import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, Text
 import ResponsiveAppBar from '../AppBar';
 import { CarritoContext } from '@/carrito/CarritoContext';
 
-
 const DetalleProducto = () => {
   const { id } = useParams();
   const { agregarProducto } = useContext(CarritoContext);
@@ -52,7 +51,7 @@ const DetalleProducto = () => {
 
   return (
     <Container sx={{ padding: '2rem', marginTop: '90px' }}>
-      <ResponsiveAppBar/>
+      <ResponsiveAppBar />
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ display: 'flex', alignItems: 'center', boxShadow: 'none', minHeight: '350px' }}>
@@ -79,7 +78,7 @@ const DetalleProducto = () => {
               <Typography variant="body1">
                 Precio: ${producto.precio}
               </Typography>
-              <TextField style={{marginTop: '120px'}}
+              <TextField style={{ marginTop: '20px' }}
                 label="Cantidad"
                 type="number"
                 value={cantidad}
@@ -97,7 +96,6 @@ const DetalleProducto = () => {
           </Card>
         </Grid>
       </Grid>
-
     </Container>
   );
 };

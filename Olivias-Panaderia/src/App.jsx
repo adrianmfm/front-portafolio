@@ -7,8 +7,11 @@ import Button from "@mui/material/Button";
 import ProductosDestacados from "./products/ProductosDestacados";
 import InstagramPosts from "./info/InstagramPost";
 import Compromiso from "./info/Compromiso";
-import { useNavigate } from "react-router-dom";
 import Suscribirse from "./info/Suscribirse";
+import { useNavigate } from "react-router-dom";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa los estilos del carrusel
+import { Carousel } from "react-responsive-carousel";
+
 function App() {
   const cardSx = {
     mb: "1rem",
@@ -19,13 +22,15 @@ function App() {
     alignItems: "center",
     padding: "2rem",
   };
+
   const navigate = useNavigate();
+
   const handleClick = () => {
     navigate("/catalogo");
   };
 
   return (
-     <Container
+    <Container
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -56,7 +61,24 @@ function App() {
             marginTop: "100px",
           }}
         >
-          <CardContent style={{textAlign: 'center'}}>
+          <CardContent style={{ textAlign: 'center' }}>
+            <Carousel
+              autoPlay
+              interval={3000}
+              infiniteLoop
+              showThumbs={false}
+              showStatus={false}
+            >
+              <div style={{ height: '200px' }}>
+                <img src="/imagenes/ProductosSlide.jpg" alt="Imagen 1" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
+              </div>
+              <div style={{ height: '200px' }}>
+                <img src="/imagenes/PanaderiaAtencion.jpg" alt="Imagen 2" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
+              </div>
+              <div style={{ height: '200px' }}>
+                <img src="/imagenes/TrabajadorPanaderia.jpg" alt="Imagen 3" style={{ height: '100%', width: '90%', objectFit: 'fill' }} />
+              </div>
+            </Carousel>
             <Typography
               variant="h5"
               component="div"
@@ -75,14 +97,14 @@ function App() {
             >
               Descubre nuestros deliciosos productos
             </Typography>
-            <div style={{ marginBottom: "3rem"}} />
+            <div style={{ marginBottom: "3rem" }} />
             <Button
               variant="contained"
               size="Normal"
               sx={{
                 fontFamily: "cursive",
                 backgroundColor: "black",
-                color: "white"
+                color: "white",
               }}
               onClick={handleClick}
             >
@@ -100,10 +122,7 @@ function App() {
               Productos Destacados
             </Typography>
             <div style={{ marginBottom: "2rem" }} />
-            <Typography
-              variant="body1"
-              sx={{ fontFamily: "cursive" }}
-            ></Typography>
+            <Typography variant="body1" sx={{ fontFamily: "cursive" }}></Typography>
             <ProductosDestacados />
           </CardContent>
         </Card>
@@ -119,10 +138,9 @@ function App() {
         </Card>
       </Container>
       <CardContent>
-      <Suscribirse/>
+        <Suscribirse />
       </CardContent>
     </Container>
-
   );
 }
 

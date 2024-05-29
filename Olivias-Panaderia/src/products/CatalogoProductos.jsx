@@ -66,16 +66,17 @@ const CatalogoProductos = () => {
                         Precio: ${producto.precio}
                       </Typography>
                     </div>
-                    <Button
+                   
+                  </CardContent>
+                </Card>
+              </CardActionArea>
+              <Button
                       variant="contained"
                       sx={{ marginBottom: '0%', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}
                       onClick={() => agregarProducto(producto)}
                     >
                       Agregar al carrito
                     </Button>
-                  </CardContent>
-                </Card>
-              </CardActionArea>
             </Card>
           </Grid>
         ))}
