@@ -67,3 +67,19 @@ export const getSubscribers = async () => {
     throw error;
   }
 };
+
+//Api transbank 
+
+export const pagoWebpay = async (lista) => {
+  const response = await axios.post(`${API_URL_JAVA}/venta/pay`,lista,  {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.data) {
+    throw new Error('Error en el pago');
+  }
+
+  return response.data;
+};

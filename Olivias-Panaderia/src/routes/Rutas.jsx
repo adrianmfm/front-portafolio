@@ -3,7 +3,7 @@ import App from '../App';
 import CatalogoProductos from '../products/CatalogoProductos'; 
 import DetalleProducto from '../products/DetalleProductos';
 import { AppBar } from '@mui/material';
-
+import Cart from '../carrito/Cart';
 
 function AppRoutes() {
   return (
@@ -16,6 +16,7 @@ function AppRoutes() {
         </>} />
         <Route path="/catalogo" element={<CatalogoProductos />} />
         <Route path="/producto/:id" element={<DetalleProducto />} />
+        <Route path='/carrito' element={ <Cart/>}/>
       </Routes>
     </Router>
   );

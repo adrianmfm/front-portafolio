@@ -56,6 +56,12 @@ export default function ProductosDestacados() {
               height="150"
               image={producto.imagenUrl}
               alt={producto.nombre}
+              sx={{
+                transition: 'transform 0.3s ease-in-out',
+                '&:hover': {
+                  transform: 'scale(1.05)'
+                }
+              }}
             />
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">

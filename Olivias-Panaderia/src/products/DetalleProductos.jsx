@@ -1,15 +1,18 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getProductoById } from '../services/api';
-import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, TextField } from '@mui/material';
+import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, TextField, Box, CircularProgress } from '@mui/material';
 import ResponsiveAppBar from '../AppBar';
+import CartContext from '../carrito/CarritoContext';
 
 const DetalleProducto = () => {
   const { id } = useParams();
+  const { addToCart } = useContext(CartContext);
   const [producto, setProducto] = useState(null);
   const [cantidad, setCantidad] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [mensajeAgregado, setMensajeAgregado] = useState(false);
 
   useEffect(() => {
     const fetchProducto = async () => {
@@ -29,17 +32,24 @@ const DetalleProducto = () => {
 
   const handleCantidadChange = (event) => {
     let value = parseInt(event.target.value, 10);
-    value = isNaN(value) ? 1 : value; // Si el valor no es un número válido, se establece en 1
-    value = Math.min(value, producto.stock); // Limitar al stock disponible
+    value = isNaN(value) ? 1 : value;
+    value = Math.min(value, producto?.stock || 1);
     setCantidad(value);
   };
 
   const handleAgregarCarrito = () => {
-    console.log(`Agregando ${cantidad} unidades del producto al carrito`);
+    console.log('acaaa', producto, id)
+    addToCart({ ...producto, quantity: cantidad });
+    setMensajeAgregado(true);
+    setTimeout(() => setMensajeAgregado(false), 2000);
   };
 
   if (loading) {
-    return <Typography>Cargando...</Typography>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {
@@ -48,7 +58,7 @@ const DetalleProducto = () => {
 
   return (
     <Container sx={{ padding: '2rem', marginTop: '90px' }}>
-      <ResponsiveAppBar/>
+      <ResponsiveAppBar />
       <Link to="/catalogo" style={{ textDecoration: 'none' }}>
         <Button variant="contained" sx={{ marginBottom: '1rem', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}>
           Volver a la tienda
@@ -57,7 +67,7 @@ const DetalleProducto = () => {
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ display: 'flex', alignItems: 'center', boxShadow: 'none', minHeight: '350px' }}>
-            {producto.imagenUrl && (
+            {producto?.imagenUrl && (
               <CardMedia
                 component="img"
                 height="100%"
@@ -72,33 +82,47 @@ const DetalleProducto = () => {
           <Card sx={{ boxShadow: 'none', minHeight: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <CardContent>
               <Typography gutterBottom variant="h4" component="div">
-                {producto.nombre}
+                {producto?.nombre}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {producto.descripcion}
+                {producto?.descripcion}
               </Typography>
               <Typography variant="body1">
-              Precio: {new Intl.NumberFormat('es-ES').format(producto.precio)}
+                Precio: {new Intl.NumberFormat('es-ES').format(producto?.precio)}
               </Typography>
-              <TextField style={{marginTop: '120px'}}
+              <TextField
                 label="Cantidad"
                 type="number"
                 value={cantidad}
                 onChange={handleCantidadChange}
-                inputProps={{ min: 1, max: producto.stock }} // Establecer mínimo y máximo
+                inputProps={{ min: 1, max: producto?.stock }}
+                sx={{ marginTop: '1rem', marginBottom: '1rem' }}
               />
             </CardContent>
-            <Button
-              variant="contained"
-              onClick={handleAgregarCarrito}
-              sx={{ marginBottom: '1rem', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}
-            >
-              Agregar al carrito
-            </Button>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Button
+                variant="contained"
+                onClick={handleAgregarCarrito}
+                sx={{ marginBottom: '1rem', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}
+              >
+                Agregar al carrito
+              </Button>
+              {mensajeAgregado && (
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontFamily: 'cursive',
+                    fontSize: '1rem',
+                    color: 'green',
+                  }}
+                >
+                  ¡Producto agregado con éxito!
+                </Typography>
+              )}
+            </Box>
           </Card>
         </Grid>
       </Grid>
-
     </Container>
   );
 };
