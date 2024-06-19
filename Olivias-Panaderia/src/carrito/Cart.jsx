@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CartContext from "./CarritoContext";
 import {
   Button,
@@ -9,6 +10,8 @@ import {
   TextField,
   Grid,
   Box,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ResponsiveAppBar from "../AppBar";
 import { pagoWebpay } from "../services/api";
@@ -17,6 +20,9 @@ const Cart = () => {
   const { cart, removeFromCart, updateCartItem } = useContext(CartContext);
   const [total, setTotal] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     const calculateTotal = () => {
@@ -42,21 +48,22 @@ const Cart = () => {
   const handleCantidadChange = (event, item) => {
     let value = parseInt(event.target.value, 10);
     value = isNaN(value) ? 1 : value;
-    value = Math.max(1, Math.min(value, item.stock)); 
+    value = Math.max(1, Math.min(value, item.stock));
     updateCartItem(item.id, value);
   };
-  const createPayment =  async () =>{
+
+  const createPayment = async () => {
     let lista = cart.map((item) => {
       return {
         id: item.id,
-        quantity: item.quantity       
-      }
-    })
-    const response = await pagoWebpay(lista)
-    const formualrioAEnviar = document.getElementById('formIrAPagar')
-    formualrioAEnviar.action = response.url
-    document.getElementById('hiddenWebpayToken').value = response.token
-     formualrioAEnviar.submit()
+        quantity: item.quantity,
+      };
+    });
+    const response = await pagoWebpay(lista);
+    const formularioAEnviar = document.getElementById("formIrAPagar");
+    formularioAEnviar.action = response.url;
+    document.getElementById("hiddenWebpayToken").value = response.token;
+    formularioAEnviar.submit();
   };
 
   return (
@@ -65,12 +72,33 @@ const Cart = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
           {cart.length === 0 ? (
-            <Typography
-              variant="h6"
-              sx={{ textAlign: "center", marginTop: "2rem" }}
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "5rem",
+                alignContent: "center",
+                marginLeft: isMobile ? "1px" : "500px",
+              }}
             >
-              El carrito está vacío.
-            </Typography>
+              <Typography variant="h6">El carrito está vacío.</Typography>
+              <Typography variant="body1" sx={{ marginTop: "1rem" }}>
+                Te invitamos a navegar por nuestro catálogo de productos
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                component={Link}
+                to="/catalogo"
+                sx={{
+                  marginTop: "1rem",
+                  backgroundColor: "black",
+                  color: "white",
+                  "&:hover": { backgroundColor: "darkgrey" },
+                }}
+              >
+                Ver Productos
+              </Button>
+            </div>
           ) : (
             <Grid container spacing={2}>
               {cart.map((item) => (
@@ -147,34 +175,36 @@ const Cart = () => {
             </Grid>
           )}
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Card sx={{ boxShadow: 3, borderRadius: "8px" }}>
-            <CardContent>
-              <Typography variant="h6">Resumen de la compra</Typography>
-              <Typography variant="body1">Productos: {totalItems}</Typography>
-              <Typography variant="body1">
-                Total: ${new Intl.NumberFormat("es-ES").format(total)}
-              </Typography>
-              <Button
-                onClick={createPayment}
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{
-                  marginTop: "1rem",
-                  backgroundColor: "black",
-                  color: "white",
-                  "&:hover": { backgroundColor: "darkgrey" },
-                }}
-              >
-                Continuar compra
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid>
+        {totalItems > 0 && (
+          <Grid item xs={12} md={4}>
+            <Card sx={{ boxShadow: 3, borderRadius: "8px" }}>
+              <CardContent>
+                <Typography variant="h6">Resumen de la compra</Typography>
+                <Typography variant="body1">Productos: {totalItems}</Typography>
+                <Typography variant="body1">
+                  Total: ${new Intl.NumberFormat("es-ES").format(total)}
+                </Typography>
+                <Button
+                  onClick={createPayment}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{
+                    marginTop: "1rem",
+                    backgroundColor: "black",
+                    color: "white",
+                    "&:hover": { backgroundColor: "darkgrey" },
+                  }}
+                >
+                  Continuar compra
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
       </Grid>
-      <form id='formIrAPagar' method='POST'>
-        <input name='token_ws' type='hidden' id='hiddenWebpayToken'></input>
+      <form id="formIrAPagar" method="POST">
+        <input name="token_ws" type="hidden" id="hiddenWebpayToken"></input>
       </form>
     </div>
   );

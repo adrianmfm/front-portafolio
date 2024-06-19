@@ -1,9 +1,21 @@
-import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
-import { getProductoById } from '../services/api';
-import { Typography, Grid, Container, Button, Card, CardContent, CardMedia, TextField, Box, CircularProgress } from '@mui/material';
-import ResponsiveAppBar from '../AppBar';
-import CartContext from '../carrito/CarritoContext';
+import { useParams, Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { getProductoById } from "../services/api";
+import {
+  Typography,
+  Grid,
+  Container,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  TextField,
+  Box,
+  CircularProgress,
+} from "@mui/material";
+import ResponsiveAppBar from "../AppBar";
+import CartContext from "../carrito/CarritoContext";
+import ProductosDestacados from "./ProductosDestacados";
 
 const DetalleProducto = () => {
   const { id } = useParams();
@@ -20,8 +32,8 @@ const DetalleProducto = () => {
         const productoData = await getProductoById(id);
         setProducto(productoData);
       } catch (error) {
-        console.error('Error fetching product:', error);
-        setError('Error fetching product details');
+        console.error("Error fetching product:", error);
+        setError("Error fetching product details");
       } finally {
         setLoading(false);
       }
@@ -38,7 +50,7 @@ const DetalleProducto = () => {
   };
 
   const handleAgregarCarrito = () => {
-    console.log('acaaa', producto, id)
+    console.log("acaaa", producto, id);
     addToCart({ ...producto, quantity: cantidad });
     setMensajeAgregado(true);
     setTimeout(() => setMensajeAgregado(false), 2000);
@@ -46,7 +58,14 @@ const DetalleProducto = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <CircularProgress />
       </Box>
     );
@@ -57,29 +76,56 @@ const DetalleProducto = () => {
   }
 
   return (
-    <Container sx={{ padding: '2rem', marginTop: '90px' }}>
+    <Container sx={{ padding: "2rem", marginTop: "90px" }}>
       <ResponsiveAppBar />
-      <Link to="/catalogo" style={{ textDecoration: 'none' }}>
-        <Button variant="contained" sx={{ marginBottom: '1rem', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}>
+      <Link to="/catalogo" style={{ textDecoration: "none" }}>
+        <Button
+          variant="contained"
+          sx={{
+            marginBottom: "1rem",
+            backgroundColor: "black",
+            color: "white",
+            "&:hover": { backgroundColor: "darkgrey" },
+          }}
+        >
           Volver a la tienda
         </Button>
       </Link>
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
-          <Card sx={{ display: 'flex', alignItems: 'center', boxShadow: 'none', minHeight: '350px' }}>
+          <Card
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              boxShadow: "none",
+              minHeight: "350px",
+            }}
+          >
             {producto?.imagenUrl && (
               <CardMedia
                 component="img"
                 height="100%"
                 image={producto.imagenUrl}
                 alt={producto.nombre}
-                sx={{ width: '100%', objectFit: 'cover', borderRadius: '8px 0 0 8px' }}
+                sx={{
+                  width: "100%",
+                  objectFit: "cover",
+                  borderRadius: "8px 0 0 8px",
+                }}
               />
             )}
           </Card>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Card sx={{ boxShadow: 'none', minHeight: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <Card
+            sx={{
+              boxShadow: "none",
+              minHeight: "350px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
             <CardContent>
               <Typography gutterBottom variant="h4" component="div">
                 {producto?.nombre}
@@ -88,7 +134,7 @@ const DetalleProducto = () => {
                 {producto?.descripcion}
               </Typography>
               <Typography variant="body1">
-                Precio: {new Intl.NumberFormat('es-ES').format(producto?.precio)}
+                ${new Intl.NumberFormat("es-ES").format(producto?.precio)}
               </Typography>
               <TextField
                 label="Cantidad"
@@ -96,14 +142,25 @@ const DetalleProducto = () => {
                 value={cantidad}
                 onChange={handleCantidadChange}
                 inputProps={{ min: 1, max: producto?.stock }}
-                sx={{ marginTop: '1rem', marginBottom: '1rem' }}
+                sx={{ marginTop: "1rem", marginBottom: "1rem" }}
               />
             </CardContent>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <Button
                 variant="contained"
                 onClick={handleAgregarCarrito}
-                sx={{ marginBottom: '1rem', backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}
+                sx={{
+                  marginBottom: "1rem",
+                  backgroundColor: "black",
+                  color: "white",
+                  "&:hover": { backgroundColor: "darkgrey" },
+                }}
               >
                 Agregar al carrito
               </Button>
@@ -111,9 +168,9 @@ const DetalleProducto = () => {
                 <Typography
                   variant="body1"
                   sx={{
-                    fontFamily: 'cursive',
-                    fontSize: '1rem',
-                    color: 'green',
+                    fontFamily: "cursive",
+                    fontSize: "1rem",
+                    color: "green",
                   }}
                 >
                   ¡Producto agregado con éxito!
@@ -123,6 +180,24 @@ const DetalleProducto = () => {
           </Card>
         </Grid>
       </Grid>
+      <div style={{ marginTop: "100px" }}>
+        <Typography
+          variant="body1"
+          sx={{
+            fontFamily: "cursive",
+            color: "",
+            fontSize: {
+              xs: "1.5rem",
+              sm: "2rem",
+              md: "2.5rem",
+              lg: "2.5rem",
+            },
+          }}
+        >
+          Tambien podría interesarte
+        </Typography>
+        <ProductosDestacados limit={3} />
+      </div>
     </Container>
   );
 };

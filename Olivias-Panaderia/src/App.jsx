@@ -1,130 +1,76 @@
 import AppBar from "./AppBar";
 import Container from "@mui/material/Container";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import ProductosDestacados from "./products/ProductosDestacados";
 import InstagramPosts from "./info/InstagramPost";
-import Compromiso from "./info/Compromiso";
 import Suscribirse from "./info/Suscribirse";
-import { useNavigate } from "react-router-dom";
 import { CartProvider } from "./carrito/CarritoContext";
+import Carrusel from "./home/Carrusel";
+import Map from "./home/Map";
 function App() {
-  const cardSx = {
-    mb: "1rem",
+  const containerSx = {
     display: "flex",
-    width: "100%",
     flexDirection: "column",
-    justifyContent: "center",
     alignItems: "center",
-    padding: "2rem",
-  };
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/catalogo");
+    justifyContent: "center",
+    width: "100%",
   };
 
   return (
     <CartProvider>
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100vh",
-          padding: "2rem",
-        }}
-      >
-        <AppBar />
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            flexGrow: 1,
-            width: "100%",
-          }}
-        >
-          {/* Primer Card */}
-          <Card
-            variant="outlined"
+      <AppBar />
+      <Carrusel />
+      <Container sx={containerSx}>
+        <div style={{ width: "100%", textAlign: "center", margin: "2rem 0" }}>
+          <Typography
+            variant="h3"
+            component="div"
             sx={{
-              ...cardSx,
-              maxWidth: "100%",
+              fontFamily: "cursive",
+              textAlign: "left",
+              marginTop: "10px",
               marginBottom: "20px",
-              marginTop: "100px",
+              fontSize: {
+                xs: "1.5rem", // Tamaño para pantallas pequeñas
+                sm: "2rem", // Tamaño para pantallas medianas
+                md: "2.5rem", // Tamaño para pantallas grandes
+                lg: "3rem", // Tamaño para pantallas muy grandes
+              },
             }}
           >
-            <CardContent style={{textAlign: 'center'}}>
-              <Typography
-                variant="h5"
-                component="div"
-                sx={{
-                  fontFamily: "cursive",
-                  textAlign: "center",
-                  marginTop: "2rem",
-                }}
-              >
-                Bienvenido a nuestra panadería saludable
-              </Typography>
-              <div style={{ marginBottom: "1rem" }} />
-              <Typography
-                variant="body1"
-                sx={{ fontFamily: "cursive", textAlign: "center" }}
-              >
-                Descubre nuestros deliciosos productos
-              </Typography>
-              <div style={{ marginBottom: "3rem"}} />
-              <Button
-                variant="contained"
-                size="Normal"
-                sx={{
-                  fontFamily: "cursive",
-                  backgroundColor: "black",
-                  color: "white"
-                }}
-                onClick={handleClick}
-              >
-                Ver Tienda
-              </Button>
-            </CardContent>
-          </Card>
-          <Card variant="outlined" sx={cardSx}>
-            <CardContent>
-              <Typography
-                variant="h5"
-                component="div"
-                sx={{ fontFamily: "cursive" }}
-              >
-                Productos Destacados
-              </Typography>
-              <div style={{ marginBottom: "2rem" }} />
-              <Typography
-                variant="body1"
-                sx={{ fontFamily: "cursive" }}
-              ></Typography>
-              <ProductosDestacados />
-            </CardContent>
-          </Card>
-          <Card variant="outlined" sx={cardSx}>
-            <CardContent>
-              <Compromiso />
-            </CardContent>
-          </Card>
-          <Card variant="outlined" sx={cardSx}>
-            <CardContent>
-              <InstagramPosts />
-            </CardContent>
-          </Card>
-        </Container>
-        <CardContent>
+            Nuestros productos más destacados
+          </Typography>
+          <ProductosDestacados limit={6}/>
+        </div>
+        <div style={{ width: "100%", marginBottom: "2rem" }}>
+          <InstagramPosts />
+        </div>
+        <div style={{ width: "100%", marginBottom: "2rem" }}>
           <Suscribirse />
-        </CardContent>
+        </div>
+        <div style={{ width: "100%", marginBottom: "2rem" }}>
+          <Typography
+            variant="h3"
+            component="div"
+            sx={{
+              fontFamily: "cursive",
+              textAlign: "center",
+              marginTop: "10px",
+              marginBottom: "20px",
+              fontSize: {
+                xs: "1.5rem", // Tamaño para pantallas pequeñas
+                sm: "2rem", // Tamaño para pantallas medianas
+                md: "2.5rem", // Tamaño para pantallas grandes
+                lg: "3rem", // Tamaño para pantallas muy grandes
+              },
+            }}
+          >
+            Encuéntranos
+          </Typography>
+          <Map />
+        </div>
       </Container>
-      </CartProvider>
+    </CartProvider>
   );
 }
 
