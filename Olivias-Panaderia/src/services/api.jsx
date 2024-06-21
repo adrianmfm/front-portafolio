@@ -2,7 +2,7 @@ import axios from 'axios';
 //OBTIENE LOS POST DE INSTAGRAM
 const API_URL = 'http://localhost:3002/media';
 
- const getInstagramPosts = async () => {
+const getInstagramPosts = async () => {
   try {
     const response = await axios.get(API_URL);
     return response.data.data;
@@ -11,10 +11,9 @@ const API_URL = 'http://localhost:3002/media';
     throw error;
   }
 };
-export default getInstagramPosts
+export default getInstagramPosts;
 
 //EMPIEZA LA API DE PRODUCTOS 
-
 
 const API_URL_JAVA = 'http://localhost:8080';
 
@@ -27,7 +26,6 @@ export const getAllProductos = async () => {
   }
 };
 
-
 export const getProductoById = async (id) => {
   try {
     const response = await axios.get(`${API_URL_JAVA}/producto/getProductoById`, {
@@ -36,6 +34,17 @@ export const getProductoById = async (id) => {
     return response.data;
   } catch (error) {
     throw new Error('Error fetching product details: Network Error');
+  }
+};
+
+export const getProductoByFilter = async (filters) => {
+  try {
+    const response = await axios.get(`${API_URL_JAVA}/producto/getProductoByFilter`, {
+      params: filters
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching filtered products: Network Error');
   }
 };
 
