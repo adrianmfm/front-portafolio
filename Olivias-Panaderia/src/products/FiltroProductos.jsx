@@ -1,143 +1,101 @@
 import React, { useState } from 'react';
-import { Box, TextField, FormControlLabel, Checkbox, Button, CircularProgress, Typography, MenuItem, Select } from '@mui/material';
-import axios from 'axios';
+import { Box, TextField, Button, MenuItem, Select, InputLabel, FormControl, Typography, IconButton, Card, CardContent } from '@mui/material';
+import { getProductoByFilter } from '../services/api';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
-const estilos = {
-  card: {
-    padding: '1rem',
-    margin: '1rem 0',
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    backgroundColor: '#f9f9f9',
-  },
-  container: {
-    padding: '1rem',
-    margin: '0 auto',
-    maxWidth: '400px',
-  },
-  select: {
-    marginTop: '1rem',
-  },
-  button: {
-    marginTop: '1rem',
-    backgroundColor: 'black',
-    color: 'white',
-    '&:hover': { backgroundColor: 'darkgrey' }
-  }
-};
+const FiltroProductos = ({ setFilteredProductos, setFilterState, clearFilters, orderProducts }) => {
+  const [nombre, setNombre] = useState('');
+  const [idCategoria, setIdCategoria] = useState('');
+  const [minPrecio, setMinPrecio] = useState('');
+  const [maxPrecio, setMaxPrecio] = useState('');
+  const [order, setOrder] = useState('asc');
 
-const FiltroProductos = () => {
-  const [filtros, setFiltros] = useState({
-    nombre: '',
-    categoria: '',
-    minPrecio: '',
-    maxPrecio: '',
-    precioOrden: '',
-  });
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setFiltros({
-      ...filtros,
-      [e.target.name]: e.target.value,
-    });
+  const handleFilterChange = (setter) => (event) => {
+    setter(event.target.value);
   };
 
-  const handleCheckboxChange = (e) => {
-    setFiltros({
-      ...filtros,
-      [e.target.name]: e.target.checked ? e.target.value : '',
-    });
+  const handleFilter = async () => {
+    const filters = { nombre, idCategoria, minPrecio: minPrecio ? parseInt(minPrecio, 10) : null, maxPrecio: maxPrecio ? parseInt(maxPrecio, 10) : null };
+    setFilterState(filters);
+    const filteredProducts = await getProductoByFilter(filters);
+    setFilteredProductos(filteredProducts);
   };
 
-  const handleFiltrar = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get('http://localhost:8080/producto/getProductoByFilter', {
-        params: filtros,
-      });
-      console.log(response.data); // Aquí puedes manejar los datos de la respuesta según sea necesario
-    } catch (error) {
-      console.error('Error al filtrar productos:', error);
-    } finally {
-      setLoading(false);
-    }
+  const handleClearFilters = () => {
+    setNombre('');
+    setIdCategoria('');
+    setMinPrecio('');
+    setMaxPrecio('');
+    clearFilters();
+  };
+
+  const handleOrderChange = () => {
+    const newOrder = order === 'asc' ? 'desc' : 'asc';
+    setOrder(newOrder);
+    orderProducts(newOrder);
   };
 
   return (
-    <Box sx={estilos.container}>
-      <Box sx={estilos.card}>
-        <Typography variant="h6" component="h2" gutterBottom>Filtrar Productos</Typography>
-        <TextField
-          fullWidth
-          label="Nombre"
-          name="nombre"
-          value={filtros.nombre}
-          onChange={handleChange}
-          margin="normal"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="categoria"
-              value="sin_gluten"
-              checked={filtros.categoria === 'sin_gluten'}
-              onChange={handleCheckboxChange}
-            />
-          }
-          label="Sin Gluten"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="categoria"
-              value="sin_azucar"
-              checked={filtros.categoria === 'sin_azucar'}
-              onChange={handleCheckboxChange}
-            />
-          }
-          label="Sin Azúcar"
-        />
-        <TextField
-          fullWidth
-          label="Precio Mínimo"
-          name="minPrecio"
-          type="number"
-          value={filtros.minPrecio}
-          onChange={handleChange}
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          label="Precio Máximo"
-          name="maxPrecio"
-          type="number"
-          value={filtros.maxPrecio}
-          onChange={handleChange}
-          margin="normal"
-        />
-        <Select
-          fullWidth
-          name="precioOrden"
-          value={filtros.precioOrden}
-          onChange={handleChange}
-          displayEmpty
-          sx={estilos.select}
-        >
-          <MenuItem value="" disabled>Ordenar por precio</MenuItem>
-          <MenuItem value="asc">Ascendente</MenuItem>
-          <MenuItem value="desc">Descendente</MenuItem>
-        </Select>
-        <Button
-          fullWidth
-          variant="contained"
-          sx={estilos.button}
-          onClick={handleFiltrar}
-        >
-          {loading ? <CircularProgress size={24} /> : 'Filtrar'}
-        </Button>
-      </Box>
-    </Box>
+    <Card sx={{ padding: 2, marginBottom: 2 }}>
+      <CardContent>
+        <Typography variant="h6" component="div" gutterBottom>
+          Filtro
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="body1">Ordenar por precio</Typography>
+            <IconButton onClick={handleOrderChange}>
+              {order === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+            </IconButton>
+          </Box>
+        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField
+            label="Nombre"
+            value={nombre}
+            onChange={handleFilterChange(setNombre)}
+            variant="outlined"
+            fullWidth
+          />
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel>Categoría</InputLabel>
+            <Select
+              value={idCategoria}
+              onChange={handleFilterChange(setIdCategoria)}
+              label="Categoría"
+            >
+              <MenuItem value=""><em>None</em></MenuItem>
+              <MenuItem value={1}>Sin Azúcar</MenuItem>
+              <MenuItem value={2}>Sin Lácteos</MenuItem>
+              <MenuItem value={3}>Sin Gluten</MenuItem>
+              <MenuItem value={4}>Sin Nueces</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            label="Precio Mínimo"
+            value={minPrecio}
+            onChange={handleFilterChange(setMinPrecio)}
+            variant="outlined"
+            type="number"
+            fullWidth
+          />
+          <TextField
+            label="Precio Máximo"
+            value={maxPrecio}
+            onChange={handleFilterChange(setMaxPrecio)}
+            variant="outlined"
+            type="number"
+            fullWidth
+          />
+          <Button variant="contained" onClick={handleFilter} sx={{ backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}>
+            Filtrar
+          </Button>
+          <Button variant="contained" onClick={handleClearFilters} sx={{ backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'darkgrey' } }}>
+            Limpiar Filtro
+          </Button>
+         
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 

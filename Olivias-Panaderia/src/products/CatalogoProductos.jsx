@@ -14,12 +14,19 @@ const CatalogoProductos = () => {
   const [error, setError] = useState(null);
   const [mensajeAgregado, setMensajeAgregado] = useState(false);
 
+  const [filterState, setFilterState] = useState({
+    nombre: '',
+    idCategoria: '',
+    minPrecio: '',
+    maxPrecio: ''
+  });
+
   useEffect(() => {
     const fetchProductos = async () => {
       try {
         const productosData = await getAllProductos();
         setProductos(productosData);
-        setFilteredProductos(productosData); // Inicialmente mostramos todos los productos
+        setFilteredProductos(productosData);
       } catch (error) {
         setError('Error fetching products');
       } finally {
@@ -33,6 +40,28 @@ const CatalogoProductos = () => {
   const handleAgregarCarrito = (producto) => {
     addToCart({ ...producto, quantity: 1 });
     setMensajeAgregado(true);
+  };
+
+  const clearFilters = async () => {
+    setFilterState({
+      nombre: '',
+      idCategoria: '',
+      minPrecio: '',
+      maxPrecio: ''
+    });
+    const productosData = await getAllProductos();
+    setFilteredProductos(productosData);
+  };
+
+  const orderProducts = (order) => {
+    const sortedProductos = [...filteredProductos].sort((a, b) => {
+      if (order === 'asc') {
+        return a.precio - b.precio;
+      } else {
+        return b.precio - a.precio;
+      }
+    });
+    setFilteredProductos(sortedProductos);
   };
 
   if (loading) {
@@ -52,19 +81,34 @@ const CatalogoProductos = () => {
   return (
     <Container sx={{ padding: '2rem', marginTop: '90px' }}>
       <ResponsiveAppBar />
-      <Typography variant="h4" component="h1" gutterBottom style={{ fontFamily: 'cursive' }}>
+      <Typography variant="h4" component="h1" gutterBottom sx={{ fontFamily: 'cursive', textAlign: { xs: 'center', md: 'left' } }}>
         Nuestros productos
       </Typography>
 
       <Grid container spacing={4}>
-        {/* Columna del filtro */}
-        <Grid item xs={12} sm={4} md={3}>
-          <FiltroProductos setFilteredProductos={setFilteredProductos} />
+        <Grid 
+          item 
+          xs={12} 
+          sm={4} 
+          md={3} 
+          sx={{ transition: 'transform 0.3s ease-in-out' }}
+        >
+          <FiltroProductos 
+            setFilteredProductos={setFilteredProductos} 
+            setFilterState={setFilterState} 
+            clearFilters={clearFilters} 
+            orderProducts={orderProducts} 
+          />
         </Grid>
 
-        {/* Columna de productos */}
-        <Grid item xs={12} sm={8} md={9}>
-          <Grid container spacing={4}>
+        <Grid 
+          item 
+          xs={12} 
+          sm={8} 
+          md={9} 
+          sx={{ transition: 'transform 0.3s ease-in-out' }}
+        >
+          <Grid container spacing={2}>
             {productosConStock.map((producto) => (
               <Grid item key={producto.id} xs={12} sm={6} md={4} lg={3}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', boxShadow: 'none', minHeight: '350px' }}>
@@ -85,7 +129,7 @@ const CatalogoProductos = () => {
                     )}
                     <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div style={{ height: '100px' }}>
-                        <Typography variant="body1" style={{ marginBottom: '10px' }}>
+                        <Typography variant="body1" sx={{ marginBottom: '10px' }}>
                           ${new Intl.NumberFormat('es-ES').format(producto.precio)}
                         </Typography>
                         <Typography gutterBottom variant="h6" component="div">
@@ -121,7 +165,8 @@ const CatalogoProductos = () => {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          color: 'black',
+          marginLeft: '30px',
+          bottom: '200px'
         }}
       />
     </Container>
