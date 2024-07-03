@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from './dashboard/Dashboard';
 import Index from './dashboard/Index';
 import Products from './productos/Products';
-import CreateProduct from './productos/CreateProduct';
+import CreateProduct from './productos/createProduct'
 import styled from 'styled-components';
 import Login from './auth/Login';
 import NotFound from './NotFound';
