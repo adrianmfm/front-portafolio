@@ -19,7 +19,7 @@ export default function ProductosDestacados({limit}) {
         const productosData = await getAllProductos();
         setProductos(productosData);
       } catch (error) {
-        setError('Error fetching products');
+        setError('Error obteniendo productos');
       } finally {
         setLoading(false);
       }
@@ -74,7 +74,7 @@ export default function ProductosDestacados({limit}) {
                 {producto.nombre}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              Precio: {new Intl.NumberFormat('es-ES').format(producto.precio)}
+              Precio: {new Intl.NumberFormat('es-CL').format(producto.precio)}
               </Typography>
             </CardContent>
           </CardActionArea>

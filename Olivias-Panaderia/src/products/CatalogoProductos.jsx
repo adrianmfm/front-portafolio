@@ -18,7 +18,7 @@ const CatalogoProductos = () => {
         const productosData = await getAllProductos();
         setProductos(productosData);
       } catch (error) {
-        setError('Error fetching products');
+        setError('Error obteniendo productos');
       } finally {
         setLoading(false);
       }
@@ -74,7 +74,7 @@ const CatalogoProductos = () => {
                 <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div style={{ height: '100px' }}>
                     <Typography variant="body1" style={{ marginBottom: '10px' }}>
-                      ${new Intl.NumberFormat('es-ES').format(producto.precio)}
+                      ${new Intl.NumberFormat('es-CL').format(producto.precio)}
                     </Typography>
                     <Typography gutterBottom variant="h6" component="div">
                       {producto.nombre}

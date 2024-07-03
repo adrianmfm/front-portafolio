@@ -68,10 +68,26 @@ export const getSubscribers = async () => {
   }
 };
 
+
+export const getSellDetail = async (idVenta) => {
+  try {
+    const response = await axios.get(`${API_URL_JAVA}/venta/getSellDetail?idVenta=${idVenta}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los detalles de la venta:", error);
+    throw error;
+  }
+};
+
+
+
 //Api transbank 
 
-export const pagoWebpay = async (lista) => {
-  const response = await axios.post(`${API_URL_JAVA}/venta/pay`,lista,  {
+export const pagoWebpay = async (lista, despacho) => {
+  const response = await axios.post(`${API_URL_JAVA}/venta/pay`,{
+    despacho: despacho,
+    productos: lista
+  },  {
     headers: {
       'Content-Type': 'application/json'
     }

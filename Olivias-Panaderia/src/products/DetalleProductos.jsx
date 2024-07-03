@@ -32,8 +32,8 @@ const DetalleProducto = () => {
         const productoData = await getProductoById(id);
         setProducto(productoData);
       } catch (error) {
-        console.error("Error fetching product:", error);
-        setError("Error fetching product details");
+        console.error("Error obteniendo productos:", error);
+        setError("Error obteniendo detalle de producto");
       } finally {
         setLoading(false);
       }
@@ -134,7 +134,7 @@ const DetalleProducto = () => {
                 {producto?.descripcion}
               </Typography>
               <Typography variant="body1">
-                ${new Intl.NumberFormat("es-ES").format(producto?.precio)}
+                ${new Intl.NumberFormat("es-CL").format(producto?.precio)}
               </Typography>
               <TextField
                 label="Cantidad"
@@ -194,7 +194,7 @@ const DetalleProducto = () => {
             },
           }}
         >
-          Tambien podría interesarte
+          También podría interesarte
         </Typography>
         <ProductosDestacados limit={3} />
       </div>

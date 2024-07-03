@@ -24,7 +24,7 @@ const Map = () => {
           position={fixedPosition}
           icon={
             new Icon({
-              iconUrl: '/icon/icon-red.svg', // Ruta correcta al icono en la carpeta public
+              iconUrl: "/imagenes/logo-olivias.jpeg", 
               iconSize: [40, 40],
             })
           }
