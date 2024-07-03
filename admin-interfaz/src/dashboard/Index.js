@@ -20,9 +20,7 @@ const Index = () => {
     <React.StrictMode>
       <Users/>
       <ButtonContainer>
-      <CreateUser />
-      <EditUser/>
-      <DeleteUser/>          
+      <CreateUser />        
       </ButtonContainer>
     </React.StrictMode>
   );
