@@ -97,17 +97,30 @@ export const getSubscribers = async () => {
   }
 };
 
-// API para realizar un pago con Transbank
-export const pagoWebpay = async (lista) => {
-  try {
-    const response = await axios.post(`${API_URL_JAVA}/venta/pay`, lista, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
 
-    if (!response.data) {
-      throw new Error('Error en el pago');
+
+export const getSellDetail = async (idVenta) => {
+  try {
+    const response = await axios.get(`${API_URL_JAVA}/venta/getSellDetail?idVenta=${idVenta}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los detalles de la venta:", error);
+    throw error;
+  }
+};
+
+
+
+//Api transbank 
+
+export const pagoWebpay = async (lista, despacho) => {
+  const response = await axios.post(`${API_URL_JAVA}/venta/pay`,{
+    despacho: despacho,
+    productos: lista
+  },  {
+    headers: {
+      'Content-Type': 'application/json'
+
     }
 
     return response.data;

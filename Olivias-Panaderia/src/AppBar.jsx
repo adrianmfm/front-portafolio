@@ -1,14 +1,17 @@
-import  { useState } from 'react';
+import { useState, useContext } from 'react';
 import { AppBar, Box, Toolbar, Typography, Container, Avatar, Button, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, NavLink } from 'react-router-dom';
+import CarritoContext from './carrito/CarritoContext';
 
 function ResponsiveAppBar() {
+  const { getTotalItems } = useContext(CarritoContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
+  //const cantidadTotal = Number(getTotalItems()) || 0;
 
   return (
     <>
@@ -45,12 +48,24 @@ function ResponsiveAppBar() {
                 <NavLink to="/historia" style={{ textDecoration: 'none', color: 'inherit', marginRight: '16px' }}>
                   <Button color="inherit">Historia</Button>
                 </NavLink>
-                <NavLink to="/carrito" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <NavLink to="/carrito" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
                   <img
                     src="/imagenes/carrito.png"
                     alt="carrito"
                     style={{ width: '40px', height: '40px', marginRight: '8px' }}
                   />
+                  <span style={{
+                    backgroundColor: '#000',
+                    color: 'white',
+                    borderRadius: '50%',
+                    padding: '2px 8px',
+                    fontSize: '0.9rem',
+                    fontWeight: 'bold',
+                    transition: 'transform 0.5s ease-in-out, background-color 0.3s ease-in-out',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>{getTotalItems()}</span>
                 </NavLink>
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

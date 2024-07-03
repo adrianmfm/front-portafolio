@@ -7,7 +7,9 @@ import Cart from '../carrito/Cart';
 import PaginaExito from '../pages/PaginaExito';
 import PaginaError from '../pages/PaginaError';
 import Historia from '../info/Historia';
+import NotFound from '../pages/NotFound';
 function AppRoutes() {
+  
   return (
     <Router>
       <Routes>
@@ -22,6 +24,7 @@ function AppRoutes() {
         <Route path='/venta/exito' element={ <PaginaExito/>}/>
         <Route path='/venta/fallida' element={ <PaginaError/>}/>
         <Route path='/historia' element={ <Historia/>}/>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

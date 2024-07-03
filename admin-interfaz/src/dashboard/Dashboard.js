@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
-import { IoMdAnalytics, IoMdPeople, IoMdBasket, IoMdExit, IoMdMenu } from 'react-icons/io';
+import { IoMdPeople, IoMdBasket, IoMdExit, IoMdMenu } from 'react-icons/io';
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -102,9 +102,14 @@ const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
     navigate('/loginAdmin');
     console.log('Sesión cerrada');
   };
+
+  const rol = localStorage.getItem("idRol")
+
+
 
   return (
     <DashboardContainer>
@@ -112,14 +117,12 @@ const Dashboard = () => {
         <IoMdMenu />
       </MenuButton>
       <Sidebar $isOpen={isSidebarOpen}>
-        <NavItem to="/dashboard" onClick={() => setSidebarOpen(false)}>
-          <IoMdAnalytics />
-          Dashboard
-        </NavItem>
-        <NavItem to="/admin/users" onClick={() => setSidebarOpen(false)}>
-          <IoMdPeople />
-          Usuarios
-        </NavItem>
+      {rol === '1' && (
+          <NavItem to="/admin/users" onClick={() => setSidebarOpen(false)}>
+            <IoMdPeople />
+            Usuarios
+          </NavItem>
+        )}
         <NavItem to="/admin/products" onClick={() => setSidebarOpen(false)}>
           <IoMdBasket />
           Productos

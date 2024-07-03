@@ -28,7 +28,7 @@ const CatalogoProductos = () => {
         setProductos(productosData);
         setFilteredProductos(productosData);
       } catch (error) {
-        setError('Error fetching products');
+        setError('Error obteniendo productos');
       } finally {
         setLoading(false);
       }
