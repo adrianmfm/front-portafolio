@@ -109,14 +109,14 @@ export const deleteProduct = async (idProducto) => {
 }
 
 
-export const createProduct = async (nombre, precio, descripcion, stock, imagenUrl) => {
+export const createProduct = async (nombre, precio, descripcion, stock, imagenUrl, idCategoria) => {
   try {
     const response = await fetch(`${API_URL}/producto/crearProducto`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ nombre, precio, descripcion, stock, imagenUrl })
+      body: JSON.stringify({ nombre, precio, descripcion, stock, imagenUrl, idCategoria })
     });
     if (!response.ok) {
       throw new Error('Error creando producto');
@@ -128,5 +128,52 @@ export const createProduct = async (nombre, precio, descripcion, stock, imagenUr
   }
 };
 
+export const updateProductById = async (id, nombre, precio, descripcion, stock, imagenUrl, idCategoria) => {
+  try {
+    const response = await fetch(`${API_URL}/producto/updateProducto`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id, nombre, precio, descripcion, stock, imagenUrl, idCategoria })
+    });
+    if (!response.ok) {
+      throw new Error(`Error actualizando producto con ID ${id}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error actualizando producto:', error);
+    throw error;
+  }
+}
 
 
+
+export const loginUser = async (email, password) => {
+  try {
+    const response = await fetch('http://localhost:8080/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en obtener usuario');
+    }
+
+    const data = await response.json();
+    if (data.success) {
+      return {
+        token: data.token,
+        idRol: data.idRol
+      };
+    } else {
+      throw new Error('Login fallido');
+    }
+  } catch (error) {
+    console.error('Error en obtener usuario:', error);
+    throw error;
+  }
+};

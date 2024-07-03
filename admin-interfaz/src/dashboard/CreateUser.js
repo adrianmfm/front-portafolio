@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createUser } from "../services/api";
+import { createUser, getUsers } from "../services/api";
 import { Form, Button, Alert, Modal, Dropdown } from "react-bootstrap";
 
 const CreateUser = () => {
@@ -38,17 +38,48 @@ const CreateUser = () => {
     }));
   };
 
+  const validateName = (name) => {
+    const nameRegex = /^[a-zA-Z ]+$/;
+    return nameRegex.test(name);
+  };
+  
+
   const validateEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(formData.correo);
   };
-  
+
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { nombre, correo, contrasena, apaterno, amaterno, idRol } = formData;
-    
+
+    const userList = await getUsers();
+    if (userList.some(usuario => usuario.correo === correo)) {
+      setErrorMessage("Correo existente");
+      return;
+    }
+
+    if (nombre.length < 3) {
+      setErrorMessage("El nombre es muy corto");
+      return;
+    }
+
+    if (!validateName(nombre)) {
+      setErrorMessage("El nombre solo puede contener letras y espacios");
+      return;
+    }
+  
+    if (!validateName(apaterno)) {
+      setErrorMessage("El apellido paterno solo puede contener letras y espacios");
+      return;
+    }
+  
+    if (!validateName(amaterno)) {
+      setErrorMessage("El apellido materno solo puede contener letras y espacios");
+      return;
+    }
     
     if (
       !nombre.trim() ||
@@ -86,7 +117,7 @@ const CreateUser = () => {
       setErrorMessage("");
       setShowModal(false);
       setFormData(initialFormData);
-      setSelectedRole(null); // Resetear el rol seleccionado
+      setSelectedRole(null); 
     } catch (error) {
       console.error("Error creating user:", error.message);
       setErrorMessage("Error creating user. Please try again.");
@@ -146,7 +177,6 @@ const CreateUser = () => {
                 value={formData.correo}
                 onChange={handleChange}
                 required
-                isInvalid={!!errorMessage} // Agregar isInvalid para mostrar el mensaje de error
               />
               <Form.Control.Feedback type="invalid">
                 {errorMessage} {/* Mostrar mensaje de error */}
