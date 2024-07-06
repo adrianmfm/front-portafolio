@@ -36,13 +36,16 @@ const Cart = () => {
     comuna: "",
     ciudad: "",
     numero: "",
+    nombre: ""
   });
   const [errorCorreo, setErrorCorreo] = useState(false);
   const [errorDireccion, setErrorDireccion] = useState(false);
   const [errorComuna, setErrorComuna] = useState(false);
   const [errorTelefono, setErrorTelefono] = useState(false);
+  const [errorNombre, setErrorNombre] = useState(false);
   const [errorCorreoMensaje, setErrorCorreoMensaje] = useState("");
   const [errorTelefonoMensaje, setErrorTelefonoMensaje] = useState("");
+  const [errorNombreMensaje, setErrorNombreMensaje] = useState("");
 
   const comunas = [
     "Cerro Navia",
@@ -131,9 +134,11 @@ const Cart = () => {
     } else if (name === "comuna") {
       setErrorComuna(value.trim() === "");
     } else if (name === "numero") {
-      console.log("evaluating numero telefono")
       setErrorTelefono(!validateTelefono(value));
       setErrorTelefonoMensaje(!validateTelefono(value) ? "Teléfono inválido" : "");
+    } else if (name === "nombre") {
+      setErrorNombre(!validateNombre(value));
+      setErrorNombreMensaje(!validateNombre(value) ? "Nombre inválido" : "");
     }
   };
 
@@ -148,6 +153,12 @@ const Cart = () => {
     return numeroRegex.test(numero);
   };
 
+  const validateNombre = (numero) => {
+    console.log(numero)
+    const numeroRegex = /^[a-zA-Z\s]+$/;
+    return numeroRegex.test(numero);
+  };
+
   const createPayment = async () => {
     let valid = true;
   
@@ -158,6 +169,10 @@ const Cart = () => {
     }
     if (!deliveryDetails.numero.trim()) {
       setErrorTelefono(true);
+      valid = false;
+    }
+    if (!deliveryDetails.nombre.trim()) {
+      setErrorNombre(true);
       valid = false;
     }
   
@@ -174,6 +189,10 @@ const Cart = () => {
         setErrorTelefono(true);
         valid = false;
       }
+      if (!deliveryDetails.nombre.trim()) {
+        setErrorNombre(true);
+        valid = false;
+      }
     }
   
     if (!valid) return;
@@ -188,6 +207,7 @@ const Cart = () => {
       idTipoDespacho: deliveryOption === "despacho" ? 1 : 2,
       correo: deliveryDetails.correo,
       numero: deliveryDetails.numero,
+      nombre: deliveryDetails.nombre,
       direccion: deliveryOption === "despacho" ? deliveryDetails.direccion : undefined,
       comuna: deliveryOption === "despacho" ? deliveryDetails.comuna : undefined,
       ciudad: deliveryOption === "despacho" ? deliveryDetails.ciudad : undefined,
@@ -368,6 +388,17 @@ const Cart = () => {
                     </RadioGroup>
                   </Box>
                   <Box sx={{ marginTop: "1rem" }}>
+                  <TextField
+                      label="Nombre"
+                      name="nombre"
+                      value={deliveryDetails.nombre}
+                      onChange={handleDeliveryDetailsChange}
+                      fullWidth
+                      sx={{ marginBottom: "1rem" }}
+                      required
+                      error={errorNombre}
+                      helperText={errorNombre ? errorNombreMensaje : ""}
+                    />
                     <TextField
                       label="Correo"
                       name="correo"

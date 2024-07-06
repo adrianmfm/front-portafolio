@@ -99,3 +99,27 @@ export const pagoWebpay = async (lista, despacho) => {
 
   return response.data;
 };
+
+// Obtiene productos filtrados según los filtros especificados
+export const getProductoByFilter = async (filters) => {
+  try {
+    const response = await axios.post(`${API_URL_JAVA}/producto/getProductoByFilter`, filters);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching filtered products:', error);
+    throw new Error('Error fetching filtered products: Network Error');
+  }
+};
+
+// Obtiene un producto por su nombre
+export const getProductoByName = async (nombre) => {
+  try {
+    const response = await axios.get(`${API_URL_JAVA}/producto/getProductoByName`, {
+      params: { nombre }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching product by name:', error);
+    throw new Error('Error fetching product by name: Network Error');
+  }
+};

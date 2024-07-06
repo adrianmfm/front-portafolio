@@ -1,11 +1,11 @@
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 const PaginaError = () => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const motivo = searchParams.get('motivo');
-  const ordenCompra = searchParams.get('ordenCompra');
+  //const location = useLocation();
+  //const searchParams = new URLSearchParams(location.search);
+  //const motivo = searchParams.get('motivo');
+  //const ordenCompra = searchParams.get('ordenCompra');
   const [hover, setHover] = useState(false);
 
   return (
@@ -14,8 +14,7 @@ const PaginaError = () => {
       <div style={styles.error}>
         <h1 style={styles.titulo}>¡Pago Fallido!</h1>
         <hr style={styles.linea} />
-        <p><strong>Motivo:</strong> {motivo}</p>
-        <p><strong>Orden de Compra:</strong> {ordenCompra}</p>
+        <p><strong>Vuelve a intentarlo</strong> {}</p>
         <Link
           to="/"
           style={hover ? { ...styles.boton, ...styles.botonHover } : styles.boton}
@@ -24,7 +23,6 @@ const PaginaError = () => {
         >
           Volver a la tienda
         </Link>
-        {/* Otros elementos o información relacionada con el error */}
       </div>
     </div>
   );
