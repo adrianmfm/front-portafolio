@@ -71,19 +71,46 @@ const Products = () => {
     const { nombre, descripcion, precio, stock, imagenUrl, idCategoria } =
       formData;
 
-    if (
-      !precio ||
-      precio < 1000 ||
-      stock < 0 ||
-      !nombre.trim() ||
-      !descripcion.trim() ||
-      !imagenUrl.trim()
-    ) {
-      setErrorMessage(
-        "Todos los campos son requeridos y no pueden estar vacíos"
-      );
+    if (!precio) {
+      setErrorMessage("Ingrese precio")
+      return
+    }
+    if (!nombre) {
+      setErrorMessage("Ingrese nombre")
+      return
+    }
+
+
+    if (precio && precio < 1000) {
+      setErrorMessage("Valor menor al permitido")
+      return
+    }
+
+    if (!stock) {
+      setErrorMessage("Ingrese stock")
+      return
+    }
+
+    if (stock && stock < 0) {
+      setErrorMessage("Valor no permitido")
+      return
+    }
+    const textRegex = /[a-zA-Z ]/
+
+    const isValidText = (text) => {
+     return textRegex.test(text);
+};
+
+    if (!isValidText(nombre) || !isValidText(descripcion)) {
+      setErrorMessage('Los campos no deben contener caracteres especiales como <, >, !');
       return;
     }
+
+    if (!nombre || !nombre.trim() || !descripcion || !descripcion.trim() || !imagenUrl.trim()) {
+      setErrorMessage('Todos los campos son requeridos y no pueden estar vacíos');
+      return;
+    }
+
 
     const isNombreRepetido = productos.some(
       (producto) =>
@@ -247,7 +274,7 @@ const Products = () => {
               <Form.Control
                 type="number"
                 name="precio"
-                value={new Intl.NumberFormat('es-CL').format(formData.precio)}
+                value={formData.precio}
                 onChange={handleFormChange}
                 required
               />

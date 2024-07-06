@@ -12,21 +12,14 @@ const CreateProduct = () => {
     idCategoria: "",
   };
 
-  const categorias = [
-    { id: 8, name: "Pastel sin gluten" },
-    { id: 9, name: "Pastel Sin Azucar" },
-    {id: 10, name: 'Galletas Sin Gluten'},
-    {id: 11, name: 'Torta Sin Lácteos'},
-    {id: 12, name: 'Tartas Sin Azúcar'},
-    {id: 13, name: 'Magdalenas Sin Gluten'},
-    {id: 14, name: 'Pan de Avena Sin Azúcar'},
-    {id: 15, name: 'Budín Sin Azúcar'},
-    {id: 16, name: 'Brownies Sin Gluten'},
-    {id: 17, name: 'Cupcakes Sin Azúcar'},
-    {id: 18, name: 'Empanadas Sin Gluten'},
-    {id: 19, name: 'Bizcocho Sin Gluten'},
-  ];
 
+  const categorias = [
+    { id: 1, name: "Sin azúcar" },
+    { id: 2, name: "Sin Lácteos" },
+    { id: 3, name: "Sin Gluten" },
+    { id: 4, name: "Sin Nueces" },
+ 
+  ];
   const [errorMessage, setErrorMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
@@ -130,7 +123,6 @@ const CreateProduct = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
   return (
     <>
       <Button variant="secondary" onClick={() => setShowModal(true)}>

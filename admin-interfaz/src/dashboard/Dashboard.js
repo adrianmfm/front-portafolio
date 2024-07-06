@@ -109,24 +109,26 @@ const Dashboard = () => {
 
   const rol = localStorage.getItem("idRol")
 
-
-
   return (
     <DashboardContainer>
       <MenuButton $isOpen={isSidebarOpen} onClick={() => setSidebarOpen(!isSidebarOpen)}>
         <IoMdMenu />
       </MenuButton>
       <Sidebar $isOpen={isSidebarOpen}>
+      <NavItem to="/admin/ventas" onClick={() => setSidebarOpen(false)}>
+          <IoMdBasket />
+          Ventas
+        </NavItem>
+        <NavItem to="/admin/products" onClick={() => setSidebarOpen(false)}>
+          <IoMdBasket />
+          Productos
+        </NavItem>
       {rol === '1' && (
           <NavItem to="/admin/users" onClick={() => setSidebarOpen(false)}>
             <IoMdPeople />
             Usuarios
           </NavItem>
         )}
-        <NavItem to="/admin/products" onClick={() => setSidebarOpen(false)}>
-          <IoMdBasket />
-          Productos
-        </NavItem>
         <LogoutButton onClick={() => { handleLogout(); setSidebarOpen(false); }}>
           <IoMdExit />
           Salir

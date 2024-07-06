@@ -6,6 +6,7 @@ import CreateProduct from './productos/createProduct'
 import styled from 'styled-components';
 import Login from './auth/Login';
 import NotFound from './NotFound';
+import Sales from './productos/Sales';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -61,12 +62,13 @@ function Unauthorized() {
 function App() {
   const token = localStorage.getItem('token');
   const rol = localStorage.getItem('idRol');
+  const nombre = localStorage.getItem('nombre');
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={token ? <Dashboard /> : <Navigate to="/loginAdmin" />} >
-          <Route path="dashboard" element={<h1>Bienvenido al Dashboard</h1>} />
+          <Route path="dashboard" element={<h1>Bienvenido {nombre}</h1>} />
           {rol === '1' ? (
             <Route path="admin/users" element={<Index />} />
           ) : (
@@ -80,7 +82,9 @@ function App() {
               </ButtonContainer>
             </div>
           } />
+           <Route path="/admin/ventas" element={<Sales />} />
         </Route>
+       
         <Route path="/loginAdmin" element={<Login />} />
         <Route path="/unauthorized" element={<Unauthorized />}/>
         <Route path="*" element={<NotFound />} />

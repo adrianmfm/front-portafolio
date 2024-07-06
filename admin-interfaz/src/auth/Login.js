@@ -77,6 +77,8 @@ const Login = () => {
       if (result.token) {
         localStorage.setItem('token', result.token);
         localStorage.setItem('idRol', result.idRol);
+        localStorage.setItem('nombre', result.nombre)
+
         window.location = '/dashboard'
       } else {
         setError('Login fallido');

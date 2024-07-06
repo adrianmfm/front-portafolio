@@ -167,13 +167,50 @@ export const loginUser = async (email, password) => {
     if (data.success) {
       return {
         token: data.token,
-        idRol: data.idRol
+        idRol: data.idRol,
+        nombre: data.nombre
       };
     } else {
       throw new Error('Login fallido');
     }
   } catch (error) {
     console.error('Error en obtener usuario:', error);
+    throw error;
+  }
+};
+
+export const getAllSales = async () => {
+  try {
+    const response = await fetch(`${API_URL}/venta/getallSellWithStatus`);
+    if (!response.ok) {
+      throw new Error('Error obteniendo ventas');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error obteniendo ventas:', error);
+    throw error;
+  }
+};
+
+export const updateSaleStatusById = async (idVenta, idStatus) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/venta/updateStatus?idVenta=${idVenta}&idStatus=${idStatus}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error actualizando el estado de la venta");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error actualizando el estado de la venta:", error);
     throw error;
   }
 };
